@@ -1,0 +1,63 @@
+{% extends "master_layout.html" %}
+
+{% block header_content %}
+<h1>LIST OF COLLEGES</h1>
+{% endblock %}
+
+{% block inner_content %}
+<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th scope="col">College Code</th>
+        <th scope="col">College Description</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr>
+        <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Edit</a></li>
+                <li><a class="dropdown-item" href="#">Delete</a></li>
+              </ul>
+            </div>
+        </td>
+        <td>CCS</td>
+        <td>College of Computer Studies</td>
+      </tr>
+      <tr>
+        <td>
+            <div class="btn-group">
+            <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Edit</a></li>
+                <li><a class="dropdown-item" href="#">Delete</a></li>
+            </ul>
+          </div></td>
+        <td>COET</td>
+        <td>College of Engineering Technology</td>
+      </tr>
+      <tr>
+        <td>
+            <div class="btn-group">
+                <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Edit</a></li>
+                    <li><a class="dropdown-item" href="#">Delete</a></li>
+                </ul>
+              </div>
+        </td>
+        <td>CON</td>
+        <td>College of Nursing</td>
+      </tr>
+    </tbody>
+</table>
+{% endblock %}

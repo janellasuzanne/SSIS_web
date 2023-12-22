@@ -1,0 +1,84 @@
+{% extends "master_layout.html" %}
+
+{% block header_content %}
+<h1>LIST OF STUDENTS</h1>
+{% endblock %}
+
+{% block inner_content %}
+<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th scope="col">#</th>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Course</th>
+        <th scope="col">Year Level</th>
+        <th scope="col">Gender</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <tr>
+        <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Edit</a></li>
+                <li><a class="dropdown-item" href="#">Delete</a></li>
+              </ul>
+            </div>
+        </td>
+        <td>1</td>
+        <td>2023-0001</td>
+        <td>Janella</td>
+        <td>Balantac</td>
+        <td>BSCS</td>
+        <td>4th</td>
+        <td>Female</td>
+    </tr>
+    <tr>
+        <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Edit</a></li>
+                <li><a class="dropdown-item" href="#">Delete</a></li>
+              </ul>
+            </div>
+        </td>
+        <td>2</td>
+        <td>2023-0002</td>
+        <td>Louvenjun</td>
+        <td>Balantac</td>
+        <td>BSCS</td>
+        <td>3rd</td>
+        <td>Male</td>
+    </tr>
+    <tr>
+        <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Edit</a></li>
+                <li><a class="dropdown-item" href="#">Delete</a></li>
+              </ul>
+            </div>
+        </td>
+        <td>3</td>
+        <td>2023-0003</td>
+        <td>Lois</td>
+        <td>Balantac</td>
+        <td>BSCS</td>
+        <td>2nd</td>
+        <td>Female</td>
+    </tr>
+    </tbody>
+</table>
+{% endblock %}

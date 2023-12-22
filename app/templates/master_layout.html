@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav nav-underline navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Colleges</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Courses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Students</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>
+
+{% block header_content %}
+{% endblock %}
+
+
+<form class="d-flex" role="search">
+    <div class="input-group">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <select class="form-control me-2">
+            <option value="" disabled selected>Search by...</option>
+            <option value="option1">ID</option>
+            <option value="option1">Course Code</option>
+            <option value="option2">First Name</option>
+            <option value="option3">Last Name</option>
+            <option value="option3">Year Level</option>
+            <option value="option3">Gender</option>
+            <hr>
+            <option value="option3">College Code</option>
+            <option value="option3">College Name</option>
+            <hr>
+            <option value="option3">Course Code</option>
+            <option value="option3">Course Name</option>
+            <option value="option3">College Code</option>
+        </select>
+        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+    <button type="button" class="btn btn-link"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
+</form>
+
+{% block inner_content%} {% endblock %}
+
+{% endblock %}
