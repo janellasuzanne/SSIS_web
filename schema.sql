@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `year` ENUM('1st', '2nd', '3rd', '4th'),
   `gender` ENUM('Male', 'Female'),
   `course_id` VARCHAR(255) NOT NULL,
-  FOREIGN KEY (`course_id`) REFERENCES `course` (`course_code`)
+  FOREIGN KEY (`course_id`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Drop the table if it exists
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `course` (
   `course_code` VARCHAR(255) PRIMARY KEY,
   `course_name` VARCHAR(255) NOT NULL,
   `college_id` VARCHAR(255) NOT NULL,
-  FOREIGN KEY (`college_id`) REFERENCES `college` (`college_code`)
+  FOREIGN KEY (`college_id`) REFERENCES `college` (`college_code`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Drop the table if it exists
@@ -58,8 +58,6 @@ CREATE TABLE IF NOT EXISTS `college` (
   `college_code` VARCHAR(255) PRIMARY KEY,
   `college_name` VARCHAR(255) NOT NULL
 );
-
-
 
 -- Data exporting was unselected.
 
