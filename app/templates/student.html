@@ -9,7 +9,7 @@
     <thead>
       <tr>
         <th></th>
-        <th scope="col">#</th>
+        <!-- <th scope="col">#</th> -->
         <th scope="col">ID</th>
         <th scope="col">First Name</th>
         <th scope="col">Last Name</th>
@@ -19,66 +19,27 @@
       </tr>
     </thead>
     <tbody class="table-group-divider">
+    {% for student in students %}
     <tr>
-        <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Edit</a></li>
-                <li><a class="dropdown-item" href="#">Delete</a></li>
-              </ul>
-            </div>
-        </td>
-        <td>1</td>
-        <td>2023-0001</td>
-        <td>Janella</td>
-        <td>Balantac</td>
-        <td>BSCS</td>
-        <td>4th</td>
-        <td>Female</td>
+      <td>
+          <div class="btn-group">
+            <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Edit</a></li>
+              <li><a class="dropdown-item" href="#">Delete</a></li>
+            </ul>
+          </div>
+      </td>
+      <td>{{ student[0] }}</td>
+      <td>{{ student[1] }}</td>
+      <td>{{ student[2] }}</td>
+      <td>{{ student[5] }}</td>
+      <td>{{ student[3] }}</td>
+      <td>{{ student[4] }}</td>
     </tr>
-    <tr>
-        <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Edit</a></li>
-                <li><a class="dropdown-item" href="#">Delete</a></li>
-              </ul>
-            </div>
-        </td>
-        <td>2</td>
-        <td>2023-0002</td>
-        <td>Louvenjun</td>
-        <td>Balantac</td>
-        <td>BSCS</td>
-        <td>3rd</td>
-        <td>Male</td>
-    </tr>
-    <tr>
-        <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-ellipsis"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Edit</a></li>
-                <li><a class="dropdown-item" href="#">Delete</a></li>
-              </ul>
-            </div>
-        </td>
-        <td>3</td>
-        <td>2023-0003</td>
-        <td>Lois</td>
-        <td>Balantac</td>
-        <td>BSCS</td>
-        <td>2nd</td>
-        <td>Female</td>
-    </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

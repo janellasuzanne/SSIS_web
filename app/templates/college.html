@@ -14,6 +14,7 @@
       </tr>
     </thead>
     <tbody class="table-group-divider">
+      {% for college in colleges %}
       <tr>
         <td>
             <div class="btn-group">
@@ -26,38 +27,10 @@
               </ul>
             </div>
         </td>
-        <td>CCS</td>
-        <td>College of Computer Studies</td>
+        <td>{{ college[0] }}</td>
+        <td>{{ college[1] }}</td>
       </tr>
-      <tr>
-        <td>
-            <div class="btn-group">
-            <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-ellipsis"></i>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Edit</a></li>
-                <li><a class="dropdown-item" href="#">Delete</a></li>
-            </ul>
-          </div></td>
-        <td>COET</td>
-        <td>College of Engineering Technology</td>
-      </tr>
-      <tr>
-        <td>
-            <div class="btn-group">
-                <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa-solid fa-ellipsis"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                    <li><a class="dropdown-item" href="#">Delete</a></li>
-                </ul>
-              </div>
-        </td>
-        <td>CON</td>
-        <td>College of Nursing</td>
-      </tr>
+      {% endfor %}
     </tbody>
 </table>
 {% endblock %}

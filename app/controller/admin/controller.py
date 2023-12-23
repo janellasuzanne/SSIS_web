@@ -8,4 +8,4 @@ from . import user
 
 @user.route('/')
 def index():
-    return render_template("test.html")
+    return render_template("college.html")

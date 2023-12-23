@@ -15,6 +15,7 @@
       </tr>
     </thead>
     <tbody class="table-group-divider">
+    {% for course in courses %}
       <tr>
         <td>
             <div class="btn-group">
@@ -27,41 +28,11 @@
               </ul>
             </div>
         </td>
-        <td>BSCS</td>
-        <td>Bachelor of Science of Computer Science</td>
-        <td>CCS</td>
+        <td>{{ course[0] }}</td>
+        <td>{{ course[1] }}</td>
+        <td>{{ course[2] }}</td>
     </tr>
-    <tr>
-        <td>
-            <div class="btn-group">
-                <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-ellipsis"></i>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Edit</a></li>
-                    <li><a class="dropdown-item" href="#">Delete</a></li>
-                </ul>
-            </div></td>
-            <td>BSIT</td>
-            <td>Bachelor of Science in Information Technology</td>
-            <td>CCS</td>
-        </tr>
-        <tr>
-            <td>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-ellipsis"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Edit</a></li>
-                        <li><a class="dropdown-item" href="#">Delete</a></li>
-                    </ul>
-                </div>
-            </td>
-            <td>BSCA</td>
-            <td>Bachelor of Science in Computer Application</td>
-            <td>CCS</td>
-        </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

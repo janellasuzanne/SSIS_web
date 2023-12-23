@@ -22,8 +22,14 @@ def create_app(test_config=None):
     CSRFProtect(app)
 
     from .controller.admin import user
+    from .controller.college import college
+    from .controller.course import course
+    from .controller.student import student
 
 
     app.register_blueprint(user)
+    app.register_blueprint(college)
+    app.register_blueprint(course)
+    app.register_blueprint(student)
 
     return app
