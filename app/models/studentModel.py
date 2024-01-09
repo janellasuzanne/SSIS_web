@@ -6,9 +6,22 @@ class StudentModel:
     def get_students(cls):
         try:
             cur = mysql.connection.cursor()
-            sql = '''SELECT * FROM student ORDER BY year, student_id ASC'''
+            sql = '''SELECT * FROM student ORDER BY student_id ASC'''
             cur.execute(sql)
             student = cur.fetchall()
             return student
         except Exception as e:
             return f"Failed to load Student List: {str(e)}"
+        
+    @classmethod
+    def add_student(cls, id, firstname, lastname, year, gender, course):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "INSERT INTO `student` (`student_id`, `firstname`, `lastname`, `year`, `gender`, `course_id`) VALUES (%s, %s, %s, %s, %s, %s)",
+                (id, firstname, lastname, year, gender, course),
+            )
+            mysql.connection.commit()
+            return "Faculty created successfully!"
+        except Exception as e:
+            return f"Failed to create College: {str(e)}"

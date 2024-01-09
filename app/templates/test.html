@@ -1,5 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>HELLO</h1>
+
+<h2>Add College</h2>
+<form action="" method="post">
+    <p>
+        {{add_form.collegeCodeInput.label}} <br>
+        {{add_form.collegeCodeInput}} <br>
+    </p>
+    <p>
+        {{add_form.collegeNameInput.label}} <br>
+        {{add_form.collegeNameInput}} <br>
+    </p>
+    <p>
+        {{add_form.submitCollege}}
+    </p>
+</form>
+
 {% endblock %}

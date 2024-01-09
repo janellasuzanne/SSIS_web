@@ -5,6 +5,23 @@
 {% endblock %}
 
 {% block inner_content %}
+<form class="d-flex" role="search">
+  <div class="input-group">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <select class="form-control me-2">
+          <option value="" disabled selected>Search by...</option>
+          <option value="studentId">ID</option>
+          <option value="studentCourse">Course Code</option>
+          <option value="studentFirstname">First Name</option>
+          <option value="studentLastname">Last Name</option>
+          <option value="studentYear">Year Level</option>
+          <option value="studentGender">Gender</option>
+      </select>
+      <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
+</form>
+
 <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -42,4 +59,50 @@
     {% endfor %}
     </tbody>
 </table>
+
+<div class="modal fade" id="addStudentModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form action="/student" method="POST">
+      {{ add_form.csrf_token }}
+      {{ add_form.hidden_tag() }}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addStudentModalLabel">Add Course</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="form-group">
+          <label for="studentIdInput">ID Number</label>
+          {{ add_form.studentIdInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentIdInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentFirstnameInput">First Name</label>
+          {{ add_form.studentFirstnameInput(class="form-control", placeholder="e.g. BSCS", required=True, id="studentFirstnameInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentLastnameInput">Last Name</label>
+          {{ add_form.studentLastnameInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentLastnameInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentYearInput">Year Level</label>
+          {{ add_form.studentYearInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentYearInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentGenderInput">Gender</label>
+          {{ add_form.studentGenderInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentGenderInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentCourseInput">Course</label>
+          {{ add_form.studentCourseInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentCourseInput")}}
+         </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i> Close </button>
+          <button type="submit" class="btn btn-warning AddFaculty"> <i class="fa-solid fa-user-plus"></i> Add Student </button>
+        </div>
+      </div>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

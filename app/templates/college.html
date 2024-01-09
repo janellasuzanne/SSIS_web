@@ -5,6 +5,19 @@
 {% endblock %}
 
 {% block inner_content %}
+<form class="d-flex" role="search">
+  <div class="input-group">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <select class="form-control me-2">
+          <option value="" disabled selected>Search by...</option>
+          <option value="collegeCode">College Code</option>
+          <option value="collegeName">College Name</option>
+      </select>
+      <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+  </div>
+  <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addCollegeModal"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
+</form>
+
 <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -33,4 +46,34 @@
       {% endfor %}
     </tbody>
 </table>
+
+<div class="modal fade" id="addCollegeModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form action="/college" method="POST">
+      {{ add_form.csrf_token }}
+      {{ add_form.hidden_tag() }}
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addCollegeModalLabel">Add College</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="form-group">
+          <label for="collegeCodeInput">College Code</label>
+          {{ add_form.collegeCodeInput(class="form-control", placeholder="e.g. CCS", required=True, id="collegeCodeInput")}}
+         </div>
+         <div class="form-group">
+          <label for="collegeNameInput">College Name</label>
+          {{ add_form.collegeNameInput(class="form-control", placeholder="e.g. College of Computer Studies", required=True, id="collegeNameInput")}}
+         </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i> Close </button>
+          <button type="submit" class="btn btn-warning AddFaculty"> <i class="fa-solid fa-user-plus"></i> Add College </button>
+        </div>
+      </div>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
