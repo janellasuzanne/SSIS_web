@@ -2,7 +2,7 @@ import os
 import pathlib
 import requests
 
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, flash
 
 from . import course
 from app.models.courseModel import CourseModel
@@ -18,7 +18,10 @@ def course():
             courseCode = add_form.courseCodeInput.data
             courseName = add_form.courseNameInput.data
 
-            CourseModel.add_course(collegeId, courseCode, courseName)
+            result = CourseModel.add_course(collegeId, courseCode, courseName)
+            flash(result)
+
+            return redirect(url_for('course.course'))
 
     courses = CourseModel.get_courses()
     return render_template("course.html", add_form=add_form, courses=courses)

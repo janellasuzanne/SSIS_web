@@ -17,7 +17,10 @@ def college():
             collegeCode = add_form.collegeCodeInput.data
             collegeName = add_form.collegeNameInput.data
 
-            CollegeModel.add_college(collegeCode, collegeName)
+            result = CollegeModel.add_college(collegeCode, collegeName)
+            flash(result)
+
+            return redirect(url_for('college.college'))
 
     colleges = CollegeModel.get_colleges()
     return render_template("college.html", add_form=add_form, colleges=colleges)
