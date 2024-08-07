@@ -7,12 +7,12 @@
 {% block inner_content %}
 <form class="d-flex" role="search">
   <div class="input-group">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <select class="form-control me-2">
-          <option value="" disabled selected>Search by...</option>
-          <option value="collegeCode">College Code</option>
-          <option value="collegeName">College Name</option>
-      </select>
+    <select class="form-control me-2">
+      <option value="" disabled selected>Search by...</option>
+      <option value="collegeCode">College Code</option>
+      <option value="collegeName">College Name</option>
+    </select>
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
   </div>
   <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addCollegeModal"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
