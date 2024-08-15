@@ -25,3 +25,16 @@ class CollegeModel:
             return "Faculty created successfully!"
         except Exception as e:
             return f"Failed to create College: {str(e)}"
+
+    @classmethod
+    def delete_college(cls, college_code):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "DELETE FROM college WHERE college_code = %s", 
+                (college_code,)
+            )
+            mysql.connection.commit()
+            return "College deleted successfully!"
+        except Exception as e:
+            return f"Failed to delete College: {str(e)}"

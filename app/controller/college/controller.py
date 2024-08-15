@@ -9,7 +9,7 @@ from app.models.collegeModel import CollegeModel
 from app.controller.college.forms import AddCollegeForm
 
 @college.route('/college', methods=['GET', 'POST'], endpoint='college')
-def college():
+def college_view():
     add_form = AddCollegeForm()
 
     if request.method == 'POST':
@@ -24,3 +24,11 @@ def college():
 
     colleges = CollegeModel.get_colleges()
     return render_template("college.html", add_form=add_form, colleges=colleges)
+
+@college.route('/delete_college', methods=['POST'])
+def delete_college():
+    college_code = request.form['college_code']
+    result = CollegeModel.delete_college(college_code)
+    flash(result)
+
+    return redirect(url_for('college.college'))
