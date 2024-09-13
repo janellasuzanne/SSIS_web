@@ -22,8 +22,10 @@
     </div>
 </nav>
 
-{% block header_content %}{% endblock %}
-
-{% block inner_content%}{% endblock %}
+<body data-page="{% block page_name %}{% endblock %}">
+  {% block header_content %}{% endblock %}
+  
+  {% block inner_content%}{% endblock %}
+</body>
 
 {% endblock %}

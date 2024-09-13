@@ -22,16 +22,29 @@ class CollegeModel:
                 (code, name),
             )
             mysql.connection.commit()
-            return "Faculty created successfully!"
+            return "College created successfully!"
         except Exception as e:
             return f"Failed to create College: {str(e)}"
+
+    @classmethod
+    def update_college(cls, code, name, prev_code):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "UPDATE `college` SET `college_code` = %s, `college_name` = %s WHERE `college_code` = %s",
+                (code, name, "Test Code"),
+            )
+            mysql.connection.commit()
+            return "College updated successfully!"
+        except Exception as e:
+            return f"Failed to update College: {str(e)}"
 
     @classmethod
     def delete_college(cls, college_code):
         try:
             cur = mysql.connection.cursor()
             cur.execute(
-                "DELETE FROM college WHERE college_code = %s", 
+                "DELETE FROM `college` WHERE `college_code` = %s", 
                 (college_code,)
             )
             mysql.connection.commit()

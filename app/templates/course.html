@@ -50,6 +50,7 @@
     </tbody>
 </table>
 
+<!-- Add Course Modal -->
 <div class="modal fade" id="addCourseModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form action="/course" method="POST">
@@ -70,7 +71,7 @@
           {{ add_form.courseCodeInput(class="form-control", placeholder="e.g. BSCS", required=True, id="courseCodeInput")}}
          </div>
          <div class="form-group">
-          <label for="courseNameInput">College Name</label>
+          <label for="courseNameInput">Course Name</label>
           {{ add_form.courseNameInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="courseNameInput")}}
          </div>
         </div>
@@ -83,4 +84,7 @@
     </form>
   </div>
 </div>
+
+<!-- Edit Course Modal -->
+
 {% endblock %}
