@@ -27,12 +27,12 @@ class CollegeModel:
             return f"Failed to create College: {str(e)}"
 
     @classmethod
-    def update_college(cls, code, name, prev_code):
+    def update_college(cls, code, name):
         try:
             cur = mysql.connection.cursor()
             cur.execute(
-                "UPDATE `college` SET `college_code` = %s, `college_name` = %s WHERE `college_code` = %s",
-                (code, name, "Test Code"),
+                "UPDATE `college` SET `college_name` = %s WHERE `college_code` = %s",
+                (name, code),
             )
             mysql.connection.commit()
             return "College updated successfully!"

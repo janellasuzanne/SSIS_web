@@ -67,9 +67,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function openUpdateModal(row) {
+        let modalId;
         switch (currentPage) {
             case 'colleges':
-                $('#updateCollegeModal').modal('show');
+                modalId = 'updateCollegeModal';
+                // $('#updateCollegeModal').modal('show');
                 break;
             case 'courses':
                 $('#updateCourseModal').modal('show');
@@ -77,7 +79,39 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'students':
                 $('#updateStudentModal').modal('show');
                 break;
+            default:
+                console.error("No matchin modal!");
+                return;
         }
+
+        const modal = document.getElementById(modalId);
+        if (!modal) {
+            console.error("Modal not found!");
+            return;
+        }
+
+        const dataAttributes = row.dataset;
+        for (const key in dataAttributes) {
+            if (dataAttributes.hasOwnProperty(key)) {
+                const value = dataAttributes[key];
+                console.log("Value: ", value);
+                console.log("Data Attributes: ", dataAttributes);
+
+                const modalElement = modal.querySelector(`#${key}UpdateInput`);
+                console.log("Modal Element: ", modalElement);
+                if (modalElement) {
+                    modalElement.value = value;
+                }
+
+                const hiddenInput = modal.querySelector(`#hidden${capitalizeFirstLetter(key)}`);
+                if (hiddenInput) {
+                    hiddenInput.value = value;
+                }
+            }
+        }
+
+        // Show the modal
+        $(modal).modal('show');
     }
 
     function openDeleteModal(row) {
@@ -113,24 +147,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const dataAttributes = row.dataset;
         console.log("Data Attributes: ", dataAttributes)
 
-        // // Get the college code and name from the clicked row's data attributes
-        // const collegeCode = row.dataset.code;
-        // const collegeName = row.dataset.name;
-
-        // // Set the modal's elements with the college data
-        // modal.querySelector('#code').textContent = collegeCode;
-        // modal.querySelector('#name').textContent = collegeName;
-
-        // // Set the hidden input for the college code in the form
-        // const hiddenInput = modal.querySelector('#hiddenCode');
-        // hiddenInput.value = collegeCode;
-
         for (const key in dataAttributes) {
             if (dataAttributes.hasOwnProperty(key)) {
                 const value = dataAttributes[key];
 
                 // Update modal elements with matching data attributes
                 const modalElement = modal.querySelector(`#${key}`);
+                console.log("Modal Element: ", modalElement);
                 if (modalElement) {
                     modalElement.textContent = value;
                 }
@@ -142,6 +165,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
+        // // Get the college code and name from the clicked row's data attributes
+        // const collegeCode = row.dataset.code;
+        // const collegeName = row.dataset.name;
+
+        // // Set the modal's elements with the college data
+        // modal.querySelector('#code').textContent = collegeCode;
+        // modal.querySelector('#name').textContent = collegeName;
+
+        // // Set the hidden input for the college code in the form
+        // const hiddenInput = modal.querySelector('#hiddenCode');
+        // hiddenInput.value = collegeCode;
 
         // Show the modal
         $(modal).modal('show');

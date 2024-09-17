@@ -94,6 +94,35 @@
     </div>
   </div>
 </div>
+
+<!-- UPDATE COLLEGE MODAL -->
+<div class="modal fade" id="updateCollegeModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form action="{{ url_for('college.update_college') }}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateCollegeModalLabel">Update College Information</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="form-group">
+          <label for="updateCollegeCodeInput">College Code</label>
+          <input type="text" name="code" class="form-control" id="codeUpdateInput" readonly="readonly">
+        </div>
+        <div class="form-group">
+          <label for="updateCollegeNameInput">College Name</label>
+          <input type="text" name="name" class="form-control" id="nameUpdateInput">
+          <input type="hidden" name="code" id="hiddenUpdateCollegeCodeInput">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i> Cancel </button>
+          <button type="submit" class="btn btn-warning AddFaculty"> <i class="fa-solid fa-pen-to-square ms-3"></i> Update </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %} 

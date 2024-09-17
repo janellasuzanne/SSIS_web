@@ -27,17 +27,12 @@ def college_view():
 
 @college.route('/update_college', methods=['GET','POST'])
 def update_college():
-    add_form = AddCollegeForm()
     if request.method == 'POST':
         code = request.form['code']
         name = request.form['name']
-
-        CollegeModel.update_college(code, name, code)
-
-        # return redirect(url_for('college.college'))
-    
-    colleges = CollegeModel.get_colleges()
-    return render_template("college.html", add_form=add_form, update_form=update_form, colleges=colleges, page_name='colleges')
+        
+        CollegeModel.update_college(code, name)
+        return redirect(url_for('college.college'))
 
 @college.route('/delete_college', methods=['POST'])
 def delete_college():
