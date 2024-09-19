@@ -54,3 +54,16 @@ class CourseModel:
             return "Course deleted successfully!"
         except Exception as e:
             return f"Failed to delete course: {str(e)}"
+        
+    @classmethod
+    def update_course(cls, code, name):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "UPDATE `course` SET `course_name` = %s WHERE `course_code` = %s",
+                (name, code),
+            )
+            mysql.connection.commit()
+            return "College updated successfully!"
+        except Exception as e:
+            return f"Failed to update College: {str(e)}"

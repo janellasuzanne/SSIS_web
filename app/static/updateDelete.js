@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 // $('#updateCollegeModal').modal('show');
                 break;
             case 'courses':
-                $('#updateCourseModal').modal('show');
+                modalId = 'updateCourseModal';
+                // $('#updateCourseModal').modal('show');
                 break;
             case 'students':
                 $('#updateStudentModal').modal('show');

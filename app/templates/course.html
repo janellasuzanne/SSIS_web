@@ -31,7 +31,7 @@
     </thead>
     <tbody class="table-group-divider">
     {% for course in courses %}
-      <tr class="clickable-row" data-code="{{ course[0] }}" data-name="{{ course[1] }}" data-collegecode="{{ course[2] }}">
+      <tr class="clickable-row" data-code="{{ course[0] }}" data-name="{{ course[1] }}" data-college="{{ course[2] }}">
         <td>{{ course[0] }}</td>
         <td>{{ course[1] }}</td>
         <td>{{ course[2] }}</td>
@@ -40,7 +40,7 @@
     </tbody>
 </table>
 
-<!-- Add Course Modal -->
+<!-- CREATE Course Modal -->
 <div class="modal fade" id="addCourseModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form action="/course" method="POST">
@@ -75,7 +75,7 @@
   </div>
 </div>
 
-<!-- Delete Course Modal -->
+<!-- DELETE Course Modal -->
 <div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -87,7 +87,7 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="modal-body">
           <h5 class="confirmation-message">Are you sure you want to delete the following course?</h5>
-          <h6>College: <strong id="collegecode"></strong></h6>
+          <h6>College: <strong id="college"></strong></h6>
           <h6>Course Code: <strong id="code"></strong></h6>
           <h6>Course Name: <strong id="name"></strong></h6>
           <input type="hidden" name="code" id="hiddenCode">
@@ -101,7 +101,38 @@
   </div>
 </div>
 
-<!-- Edit Course Modal -->
+<!-- UPDATE Course Modal -->
+<div class="modal fade" id="updateCourseModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form action="{{ url_for('course.update_course') }}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateCourseModalLabel">Update Course Information</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="form-group">
+          <label for="updateCollegeInput">College</label>
+          <input type="text" name="college" class="form-control" id="collegeUpdateInput" readonly="readonly">
+        </div>
+         <div class="form-group">
+          <label for="updateCourseCodeInput">Course Code</label>
+          <input type="text" name="code" class="form-control" id="codeUpdateInput" readonly="readonly">
+        </div>
+        <div class="form-group">
+          <label for="updateCourseNameInput">Course Name</label>
+          <input type="text" name="name" class="form-control" id="nameUpdateInput">
+          <input type="hidden" name="code" id="hiddenUpdateCourseCodeInput">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i> Cancel </button>
+          <button type="submit" class="btn btn-warning AddFaculty"> <i class="fa-solid fa-pen-to-square ms-3"></i> Update </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 {% endblock %}
 

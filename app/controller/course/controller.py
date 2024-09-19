@@ -27,6 +27,15 @@ def course_view():
     courses = CourseModel.get_courses()
     return render_template("course.html", add_form=add_form, courses=courses)
 
+@course.route('/update_course', methods=['GET', 'POST'])
+def update_course():
+    if request.method == "POST":
+        code = request.form['code']
+        name = request.form['name']
+
+        CourseModel.update_course(code, name)
+        return redirect(url_for('course.course'))
+
 @course.route('/delete_course', methods=['POST'])
 def delete_course():
     if request.method == "POST":
