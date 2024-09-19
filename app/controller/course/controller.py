@@ -9,8 +9,9 @@ from app.models.courseModel import CourseModel
 from app.controller.course.forms import AddCourseForm
 
 @course.route('/course', methods=['GET', 'POST'], endpoint='course')
-def course():
+def course_view():
     add_form = AddCourseForm()
+    add_form.collegeIdInput.choices = CourseModel.get_college_codes()
 
     if request.method == 'POST':
         if add_form.validate_on_submit():
@@ -25,3 +26,12 @@ def course():
 
     courses = CourseModel.get_courses()
     return render_template("course.html", add_form=add_form, courses=courses)
+
+@course.route('/delete_course', methods=['POST'])
+def delete_course():
+    if request.method == 'POST':
+        course_code = request.form['code']
+        if course_code:
+            result = CourseModel.delete_course(course_code)
+            flash(result)
+        return redirect(url_for("course.course"))
