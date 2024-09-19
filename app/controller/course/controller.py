@@ -29,7 +29,7 @@ def course_view():
 
 @course.route('/delete_course', methods=['POST'])
 def delete_course():
-    if request.method == 'POST':
+    if request.method == "POST":
         course_code = request.form['code']
         if course_code:
             result = CourseModel.delete_course(course_code)

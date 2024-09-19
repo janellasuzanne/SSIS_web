@@ -31,7 +31,7 @@
     </thead>
     <tbody class="table-group-divider">
     {% for course in courses %}
-      <tr class="clickable-row" data-code="{{ course[0] }}" data-name="{{ course[1] }}" data-collegeCode="{{ course[2] }}">
+      <tr class="clickable-row" data-code="{{ course[0] }}" data-name="{{ course[1] }}" data-collegecode="{{ course[2] }}">
         <td>{{ course[0] }}</td>
         <td>{{ course[1] }}</td>
         <td>{{ course[2] }}</td>
@@ -76,7 +76,7 @@
 </div>
 
 <!-- Delete Course Modal -->
-<div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true"></div>
+<div class="modal fade" id="deleteCourseModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -86,11 +86,11 @@
       <form action="{{ url_for('course.delete_course') }}" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="modal-body">
-          <h5 class="confirmation-message">Are you sure you want to delete the following college?</h5>
-          <h6>College Code: <strong id="collegecode"></strong></h6>
+          <h5 class="confirmation-message">Are you sure you want to delete the following course?</h5>
+          <h6>College: <strong id="collegecode"></strong></h6>
           <h6>Course Code: <strong id="code"></strong></h6>
           <h6>Course Name: <strong id="name"></strong></h6>
-          <input type="hidden" name="code" id="hiddenCourseCode">
+          <input type="hidden" name="code" id="hiddenCode">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

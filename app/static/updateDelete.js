@@ -160,8 +160,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Update hidden input field, if it exists (e.g., for codes)
                 const hiddenInput = modal.querySelector(`#hidden${capitalizeFirstLetter(key)}`);
+                console.log("HiddenInput Element: ", hiddenInput);
                 if (hiddenInput) {
                     hiddenInput.value = value;
+                    console.log("HiddenInput Input: ", hiddenInput.value);
                 }
             }
         }
