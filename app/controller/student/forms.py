@@ -15,5 +15,7 @@ class AddStudentForm(FlaskForm):
     ])
     studentYearInput = SelectField('Select Year Level', choices=[('1st', '1st Year'), ('2nd', '2nd Year'), ('3rd', '3rd Year'), ('4th', '4th Year')])
     studentGenderInput = SelectField('Select Gender', choices=[('Male', 'Male'), ('Female', 'Female')])
-    studentCourseInput = SelectField('Select Course', choices=[('BSCS', 'Bachelor of Science in Computer Science'), ('BSN', 'Bachelor of Science in Nursing'), ('BSBA', 'Bachelor of Science in Business Administration')])
+    studentCollegeInput = SelectField('Select Course', choices=[])
+    # studentCourseInput = SelectField('Select Course', choices=[('Crs1', 'Course 1'), ('Crs2', 'Course 2')])
+    studentCourseInput = SelectField(u'Select Course', choices=[])
     submitStudent = SubmitField('Add Student')

@@ -24,9 +24,7 @@
 
 <table class="table table-striped table-hover">
     <thead>
-      <tr>
-        <th></th>
-        <!-- <th scope="col">#</th> -->
+      <tr class="clickable-row">
         <th scope="col">ID</th>
         <th scope="col">First Name</th>
         <th scope="col">Last Name</th>
@@ -38,17 +36,6 @@
     <tbody class="table-group-divider">
     {% for student in students %}
     <tr>
-      <td>
-          <div class="btn-group">
-            <button type="button" class="btn btn-link" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-ellipsis"></i>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Edit</a></li>
-              <li><a class="dropdown-item" href="#">Delete</a></li>
-            </ul>
-          </div>
-      </td>
       <td>{{ student[0] }}</td>
       <td>{{ student[1] }}</td>
       <td>{{ student[2] }}</td>
@@ -63,7 +50,7 @@
 
 </table>
 
-<!-- ADD STUDENT MODAL -->
+<!-- ADD Student Modal -->
 <div class="modal fade" id="addStudentModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form action="/students" method="POST">
@@ -77,27 +64,31 @@
         <div class="modal-body">
          <div class="form-group">
           <label for="studentIdInput">ID Number</label>
-          {{ add_form.studentIdInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentIdInput")}}
+          {{ add_form.studentIdInput(class="form-control", placeholder="e.g. 2024-0001", required=True, id="studentIdInput")}}
          </div>
          <div class="form-group">
           <label for="studentFirstnameInput">First Name</label>
-          {{ add_form.studentFirstnameInput(class="form-control", placeholder="e.g. BSCS", required=True, id="studentFirstnameInput")}}
+          {{ add_form.studentFirstnameInput(class="form-control", placeholder="e.g. John", required=True, id="studentFirstnameInput")}}
          </div>
          <div class="form-group">
           <label for="studentLastnameInput">Last Name</label>
-          {{ add_form.studentLastnameInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentLastnameInput")}}
+          {{ add_form.studentLastnameInput(class="form-control", placeholder="e.g. Doe", required=True, id="studentLastnameInput")}}
          </div>
          <div class="form-group">
           <label for="studentYearInput">Year Level</label>
-          {{ add_form.studentYearInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentYearInput")}}
+          {{ add_form.studentYearInput(class="form-control", placeholder="e.g. !st Year", required=True, id="studentYearInput")}}
          </div>
          <div class="form-group">
           <label for="studentGenderInput">Gender</label>
-          {{ add_form.studentGenderInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentGenderInput")}}
+          {{ add_form.studentGenderInput(class="form-control", placeholder="e.g. Male", required=True, id="studentGenderInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentCollegeInput">College</label>
+          {{ add_form.studentCollegeInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentCollegeInput")}}
          </div>
          <div class="form-group">
           <label for="studentCourseInput">Course</label>
-          {{ add_form.studentCourseInput(class="form-control", placeholder="e.g. Bachelor of Science in Computer Science", required=True, id="studentCourseInput")}}
+          {{ add_form.studentCourseInput(class="form-control", placeholder="e.g. BSCS", required=True, id="studentCourseInput")}}
          </div>
         </div>
         <div class="modal-footer">

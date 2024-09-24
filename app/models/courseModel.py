@@ -12,22 +12,23 @@ class CourseModel:
             return course
         except Exception as e:
             return f"Failed to load Course List: {str(e)}"
-
-    # Get College List; Return College Codes only
+        
     @classmethod
-    def get_college_codes(cls):
+    def get_courses_by_college(cls, collegeName):
         try:
             cur = mysql.connection.cursor()
             cur.execute(
-                '''SELECT college_code, college_code FROM college'''
+                '''SELECT course_code, course_name FROM `course`
+                    LEFT JOIN `college`
+                    ON course.college_id = college.college_code
+                    WHERE college.college_name = %s''',
+                    (collegeName),
             )
-            collegeCodes = cur.fetchall()
-            cur.close()
-            return collegeCodes
+            mysql.connection.commit()
+            return "Courses fetched successfully!"
         except Exception as e:
-            print(f"Failed to load College Codes: {str(e)}")
-            return []
-        
+            return f"Failed to fetch courses: {str(e)}"
+    
         
     @classmethod
     def add_course(cls, collegeId, code, name):
@@ -38,7 +39,7 @@ class CourseModel:
                 (code, name, collegeId),
             )
             mysql.connection.commit()
-            return "Faculty created successfully!"
+            return "Course created successfully!"
         except Exception as e:
             return f"Failed to create College: {str(e)}"
         

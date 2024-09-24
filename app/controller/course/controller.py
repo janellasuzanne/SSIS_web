@@ -6,12 +6,13 @@ from flask import request, render_template, redirect, url_for, flash
 
 from . import course
 from app.models.courseModel import CourseModel
+from app.models.collegeModel import CollegeModel
 from app.controller.course.forms import AddCourseForm
 
 @course.route('/course', methods=['GET', 'POST'], endpoint='course')
 def course_view():
     add_form = AddCourseForm()
-    add_form.collegeIdInput.choices = CourseModel.get_college_codes()
+    add_form.collegeIdInput.choices = CollegeModel.get_college_codes()
 
     if request.method == 'POST':
         if add_form.validate_on_submit():
