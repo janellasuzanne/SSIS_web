@@ -14,8 +14,8 @@ from app.controller.student.forms import AddStudentForm
 def students():
     add_form = AddStudentForm()
     add_form.studentCollegeInput.choices = CollegeModel.get_college_codes()
-    courseChoices = CourseModel.get_courses_by_college("College of Computer Studies")
-    add_form.studentCourseInput.choice = courseChoices
+    # add_form.studentCourseInput.choices = CourseModel.get_courses_by_college("College of Computer Studies")
+    # add_form.studentCourseInput.choice = courseChoices
 
     if request.method == 'POST':
         if add_form.validate_on_submit():
@@ -24,7 +24,6 @@ def students():
             studentLastname = add_form.studentLastnameInput.data
             studentYear = add_form.studentYearInput.data
             studentGender = add_form.studentGenderInput.data
-            # studentCollege = add_form.studentCollegeInput.data
             studentCourse = add_form.studentCourseInput.data
 
             result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentYear, studentGender, studentCourse)

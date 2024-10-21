@@ -1,14 +1,16 @@
 {% extends "master_layout.html" %}
 
+{% block page_name %}students{% endblock %}
+
 {% block header_content %}
-<h1>LIST OF STUDENTS</h1>
+<h1 class="page-header">STUDENT LIST</h1>
 {% endblock %}
 
 {% block inner_content %}
 <form class="d-flex" role="search">
   <div class="input-group">
     <select class="form-control me-2">
-      <option value="" disabled selected>Search by...</option>
+      <option value="" disabled selected>Filter</option>
       <option value="studentId">ID</option>
       <option value="studentCourse">Course Code</option>
       <option value="studentFirstname">First Name</option>
@@ -44,13 +46,10 @@
       <td>{{ student[4] }}</td>
     </tr>
     {% endfor %}
-
     </tbody>
-
-
 </table>
 
-<!-- ADD Student Modal -->
+<!-- CREATE Student Modal -->
 <div class="modal fade" id="addStudentModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form action="/students" method="POST">
@@ -99,4 +98,8 @@
     </form>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %} 
+<script src="{{ url_for('static', filename='updateDelete.js') }}"></script>
 {% endblock %}
