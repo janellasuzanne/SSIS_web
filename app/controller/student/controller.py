@@ -22,14 +22,23 @@ def students():
             studentId = add_form.studentIdInput.data
             studentFirstname = add_form.studentFirstnameInput.data
             studentLastname = add_form.studentLastnameInput.data
+            studentCourse = add_form.studentCourseInput.data
             studentYear = add_form.studentYearInput.data
             studentGender = add_form.studentGenderInput.data
-            studentCourse = add_form.studentCourseInput.data
 
-            result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentYear, studentGender, studentCourse)
+            result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentCourse, studentYear, studentGender)
             flash(result)
 
             return redirect(url_for('student.students'))
 
     students = StudentModel.get_students()
     return render_template("student.html", add_form=add_form, students=students)
+
+@student.route('/delete_student', methods=['POST'])
+def delete_student():
+    if request.method == "POST":
+        student_id = request.form['code']
+        if student_id:
+            result = StudentModel.delete_student(student_id)
+            flash(result)
+        return redirect(url_for("student.students"))

@@ -37,13 +37,14 @@
     </thead>
     <tbody class="table-group-divider">
     {% for student in students %}
-    <tr>
+    <tr class="clickable-row" data-code="{{ student[0] }}" data-firstname="{{ student[1] }}" data-lastname="{{ student[2] }}"
+    data-course="{{ student[3] }}" data-year="{{ student[4] }}" data-gender="{{ student[5] }}">
       <td>{{ student[0] }}</td>
       <td>{{ student[1] }}</td>
       <td>{{ student[2] }}</td>
-      <td>{{ student[5] }}</td>
       <td>{{ student[3] }}</td>
       <td>{{ student[4] }}</td>
+      <td>{{ student[5] }}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -74,20 +75,20 @@
           {{ add_form.studentLastnameInput(class="form-control", placeholder="e.g. Doe", required=True, id="studentLastnameInput")}}
          </div>
          <div class="form-group">
-          <label for="studentYearInput">Year Level</label>
-          {{ add_form.studentYearInput(class="form-control", placeholder="e.g. !st Year", required=True, id="studentYearInput")}}
-         </div>
-         <div class="form-group">
-          <label for="studentGenderInput">Gender</label>
-          {{ add_form.studentGenderInput(class="form-control", placeholder="e.g. Male", required=True, id="studentGenderInput")}}
-         </div>
-         <div class="form-group">
           <label for="studentCollegeInput">College</label>
           {{ add_form.studentCollegeInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentCollegeInput")}}
          </div>
          <div class="form-group">
           <label for="studentCourseInput">Course</label>
           {{ add_form.studentCourseInput(class="form-control", placeholder="e.g. BSCS", required=True, id="studentCourseInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentYearInput">Year Level</label>
+          {{ add_form.studentYearInput(class="form-control", placeholder="e.g. !st Year", required=True, id="studentYearInput")}}
+         </div>
+         <div class="form-group">
+          <label for="studentGenderInput">Gender</label>
+          {{ add_form.studentGenderInput(class="form-control", placeholder="e.g. Male", required=True, id="studentGenderInput")}}
          </div>
         </div>
         <div class="modal-footer">
@@ -96,6 +97,35 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- DELETE Student Modal -->
+<div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="deleteModalLabel">Delete Student</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{ url_for('student.delete_student') }}" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="modal-body">
+          <h5 class="confirmation-message">Are you sure you want to delete the following student?</h5>
+          <h6>Student ID: <strong id="code"></strong></h6>
+          <h6>First Name: <strong id="firstname"></strong></h6>
+          <h6>Last Name: <strong id="lastname"></strong></h6>
+          <h6>Course: <strong id="course"></strong></h6>
+          <h6>Year Level: <strong id="year"></strong></h6>
+          <h6>Gender: <strong id="gender"></strong></h6>
+          <input type="hidden" name="code" id="hiddenCode">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}
