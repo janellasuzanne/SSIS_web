@@ -41,6 +41,26 @@ class StudentModel:
             return f"Failed to create College: {str(e)}"
         
     @classmethod
+    def update_student(cls, id, firstname, lastname, course, year, gender):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(
+                '''UPDATE `student`
+                    SET `student_id` = %s,
+                        `firstname` = %s,
+                        `lastname` = %s,
+                        `course` = %s,
+                        `year` = %s,
+                        `gender` = %s
+                    WHERE `student_id` = %s''',
+                    (id, firstname, lastname, course, year, gender),
+            )
+            mysql.connection.commit()
+            return "Student updated successfully!"
+        except Exception as e:
+            return f"Failed to update Student: {str(e)}"
+        
+    @classmethod
     def delete_student(cls, id):
         try:
             cur = mysql.connection.cursor()

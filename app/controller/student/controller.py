@@ -14,8 +14,6 @@ from app.controller.student.forms import AddStudentForm
 def students():
     add_form = AddStudentForm()
     add_form.studentCollegeInput.choices = CollegeModel.get_college_codes()
-    # add_form.studentCourseInput.choices = CourseModel.get_courses_by_college("College of Computer Studies")
-    # add_form.studentCourseInput.choice = courseChoices
 
     if request.method == 'POST':
         if add_form.validate_on_submit():
@@ -33,6 +31,19 @@ def students():
 
     students = StudentModel.get_students()
     return render_template("student.html", add_form=add_form, students=students)
+
+@student.route('/update_student', methods=['GET','POST'])
+def update_student():
+    if request.method == 'POST':
+        id = request.form['code']
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        course = request.form['course']
+        year = request.form['year']
+        gender = request.form['gender']
+        
+        StudentModel.update_student(id, firstname, lastname, course, year, gender)
+        return redirect(url_for('student.students'))
 
 @student.route('/delete_student', methods=['POST'])
 def delete_student():

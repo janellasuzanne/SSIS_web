@@ -13,6 +13,19 @@ class CollegeModel:
         except Exception as e:
             return f"Failed to load College List: {str(e)}"
         
+    # Get College by College Code
+    @classmethod
+    def get_single_college(cls, code):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT college_name FROM college WHERE college_code = %s",
+            (code),
+            )
+            college = cur.fetchall()
+            return college
+        except Exception as e:
+            return f"Faile to get college: {str(e)}"
+        
     # Get College List; Return College Codes only
     @classmethod
     def get_college_codes(cls):

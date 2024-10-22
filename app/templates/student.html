@@ -37,7 +37,7 @@
     </thead>
     <tbody class="table-group-divider">
     {% for student in students %}
-    <tr class="clickable-row" data-code="{{ student[0] }}" data-firstname="{{ student[1] }}" data-lastname="{{ student[2] }}"
+    <tr class="hoverable-row" data-code="{{ student[0] }}" data-firstname="{{ student[1] }}" data-lastname="{{ student[2] }}"
     data-course="{{ student[3] }}" data-year="{{ student[4] }}" data-gender="{{ student[5] }}">
       <td>{{ student[0] }}</td>
       <td>{{ student[1] }}</td>
@@ -126,6 +126,65 @@
         </div>
       </form>
     </div>
+  </div>
+</div>
+
+<!-- UPDATE Student Modal -->
+<div class="modal fade" id="updateStudentModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <form action="{{ url_for('student.update_student') }}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateCollegeModalLabel">Update College Information</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="form-group">
+          <label for="updateStudentIdInput">Student ID</label>
+          <input type="text" name="code" class="form-control" id="codeUpdateInput">
+        </div>
+         <div class="form-group">
+          <label for="updateStudentFirstnameInput">First Name</label>
+          <input type="text" name="firstname" class="form-control" id="firstnameUpdateInput">
+        </div>
+         <div class="form-group">
+          <label for="updateStudentLastnameInput">Last Name</label>
+          <input type="text" name="lastname" class="form-control" id="lastnameUpdateInput">
+        </div>
+         <div class="form-group">
+          <label for="updateStudentCollegeInput">College</label>
+          <select name="college" class="form-select" id="collegeUpdateInput">
+            <option value="CON" disabled selected>College of Science and Mathematics</option>
+            {% for college in colleges %}
+              <option value="{{college.college_code}}">{{ college.college_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+         <div class="form-group">
+          <label for="updateStudentCourseInput">Course</label>
+          <select name="course" class="form-select" id="courseUpdateInput">
+            <option value="BSPhy" selected>Bachelor of Science in Physics</option>
+            {% for course in courses %}
+              <option value="{{course.course_code}}">{{ course.course_name}}</option>
+            {% endfor %}
+          </select>
+          <!-- <input type="text" name="course" class="form-control" id="courseUpdateInput"> -->
+        </div>
+         <div class="form-group">
+          <label for="updateStudentYearInput">Year Level</label>
+          <input type="text" name="year" class="form-control" id="yearUpdateInput">
+        </div>
+         <div class="form-group">
+          <label for="updateStudentGenderInput">Gender</label>
+          <input type="text" name="gender" class="form-control" id="genderUpdateInput">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i> Cancel </button>
+          <button type="submit" class="btn btn-warning AddFaculty"> <i class="fa-solid fa-pen-to-square ms-3"></i> Update </button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
 {% endblock %}
