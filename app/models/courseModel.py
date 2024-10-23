@@ -17,15 +17,20 @@ class CourseModel:
     def get_courses_by_college(cls, collegeName):
         try:
             cur = mysql.connection.cursor()
+            # cur.execute(
+            #     '''SELECT course_code, course_name FROM `course`
+            #         LEFT JOIN `college`
+            #         ON course.college_id = college.college_code
+            #         WHERE college.college_name = %s''',
+            #         (collegeName),
+            # )
             cur.execute(
                 '''SELECT course_code, course_name FROM `course`
-                    LEFT JOIN `college`
-                    ON course.college_id = college.college_code
-                    WHERE college.college_name = %s''',
+                    WHERE college_id = %s''',
                     (collegeName),
             )
-            mysql.connection.commit()
-            return "Courses fetched successfully!"
+            courses = cur.fetchall()
+            return courses
         except Exception as e:
             return f"Failed to fetch courses: {str(e)}"
     

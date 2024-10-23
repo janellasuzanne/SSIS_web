@@ -8,8 +8,8 @@ class CollegeModel:
             cur = mysql.connection.cursor()
             sql = '''SELECT * FROM college'''
             cur.execute(sql)
-            college = cur.fetchall()
-            return college
+            colleges = cur.fetchall()
+            return colleges
         except Exception as e:
             return f"Failed to load College List: {str(e)}"
         
@@ -79,3 +79,15 @@ class CollegeModel:
             return "College deleted successfully!"
         except Exception as e:
             return f"Failed to delete College: {str(e)}"
+        
+    @classmethod
+    def search_college(cls, filter, input):
+        try:
+            cur = mysql.connection.cursor()
+            sql = f"SELECT * FROM college WHERE {filter} = %s"
+            cur.execute(sql, (input,))
+            colleges = cur.fetchall()
+            cur.close()
+            return colleges
+        except Exception as e:
+            return f"Failed to fetch Colleges: {str(e)}"
