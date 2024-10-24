@@ -18,9 +18,11 @@ def college_view():
             collegeName = add_form.collegeNameInput.data
 
             result = CollegeModel.add_college(collegeCode, collegeName)
-            flash(result)
+            flash(result, 'success')
 
             return redirect(url_for('college.college'))
+        else:
+            flash('College NOT created!', 'danger')
 
     colleges = CollegeModel.get_colleges()
     return render_template("college.html", add_form=add_form, colleges=colleges, page_name='colleges')
@@ -31,8 +33,12 @@ def update_college():
         code = request.form['code']
         name = request.form['name']
         
-        CollegeModel.update_college(code, name)
+        result = CollegeModel.update_college(code, name)
+        flash(result, 'success')
+
         return redirect(url_for('college.college'))
+    else:
+        flash('College information NOT updated!', 'danger')
 
 @college.route('/delete_college', methods=['POST'])
 def delete_college():
@@ -40,8 +46,11 @@ def delete_college():
         college_code = request.form['code']
         if college_code:
             result = CollegeModel.delete_college(college_code)
-            flash(result)
+            flash(result, 'success')
+
         return redirect(url_for("college.college"))
+    else:
+        flash('College NOT deleted!', 'danger')
     
     
 @college.route('/search_college', methods=['GET', 'POST'])

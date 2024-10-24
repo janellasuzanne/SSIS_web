@@ -52,6 +52,16 @@
     </tbody>
 </table>
 
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
+        {{ message }}
+      </div>
+    {% endfor%}
+  {% endif %}
+{% endwith %}
+
 <!-- CREATE Student Modal -->
 <div class="modal fade" id="addStudentModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">

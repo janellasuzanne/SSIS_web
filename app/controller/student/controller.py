@@ -25,9 +25,11 @@ def students():
             studentGender = add_form.studentGenderInput.data
 
             result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentCourse, studentYear, studentGender)
-            flash(result)
+            flash(result, 'success')
 
             return redirect(url_for('student.students'))
+        else:
+            flash('Student NOT created!', 'danger')
 
     students = StudentModel.get_students()
     return render_template("student.html", add_form=add_form, students=students)
@@ -42,8 +44,12 @@ def update_student():
         year = request.form['year']
         gender = request.form['gender']
         
-        StudentModel.update_student(id, firstname, lastname, course, year, gender)
+        result = StudentModel.update_student(id, firstname, lastname, course, year, gender)
+        flash(result, 'success')
+
         return redirect(url_for('student.students'))
+    else:
+        flash('Student information NOT updated!', 'danger')
 
 @student.route('/delete_student', methods=['POST'])
 def delete_student():
@@ -51,8 +57,11 @@ def delete_student():
         student_id = request.form['code']
         if student_id:
             result = StudentModel.delete_student(student_id)
-            flash(result)
+            flash(result, 'success')
+
         return redirect(url_for("student.students"))
+    else:
+        flash('Student NOT deleted!', 'danger')
     
 @student.route('/search_student', methods=['GET', 'POST'])
 def search_student():

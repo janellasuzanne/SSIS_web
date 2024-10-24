@@ -21,9 +21,11 @@ def course_view():
             courseName = add_form.courseNameInput.data
 
             result = CourseModel.add_course(collegeId, courseCode, courseName)
-            flash(result)
+            flash(result, 'success')
 
             return redirect(url_for('course.course'))
+        else:
+            flash('Course not created!', 'danger')
 
     courses = CourseModel.get_courses()
     return render_template("course.html", add_form=add_form, courses=courses)
@@ -34,8 +36,11 @@ def update_course():
         code = request.form['code']
         name = request.form['name']
 
-        CourseModel.update_course(code, name)
+        result = CourseModel.update_course(code, name)
+        flash(result, 'success')
         return redirect(url_for('course.course'))
+    else:
+        flash('Course information NOT updated!', 'danger')
 
 @course.route('/delete_course', methods=['POST'])
 def delete_course():
@@ -43,8 +48,10 @@ def delete_course():
         course_code = request.form['code']
         if course_code:
             result = CourseModel.delete_course(course_code)
-            flash(result)
+            flash(result, 'success')
         return redirect(url_for("course.course"))
+    else:
+        flash('Course NOT deleted!', 'danger')
     
 @course.route('/search_course', methods=['GET', 'POST'])
 def search_course():

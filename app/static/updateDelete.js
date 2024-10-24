@@ -211,4 +211,16 @@ document.addEventListener('DOMContentLoaded', function () {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+
+    // Auto-dismiss alerts
+    window.setTimeout(function () {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            // Use Bootstrap's alert dismissal method
+            alert.classList.remove('show'); // Start fade out
+            alert.addEventListener('transitionend', () => alert.remove()); // Remove element after transition
+        });
+    }, 3000);
+
 })
