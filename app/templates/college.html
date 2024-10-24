@@ -7,15 +7,15 @@
 {% endblock %}
 
 {% block inner_content %}
-<form id="searchForm" class="d-flex" action="{{ url_for('college.search_college') }}" method="POST" role="search">
+<form id="searchCollegeForm" class="d-flex" action="{{ url_for('college.search_college') }}" method="POST" role="search">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
-    <select id="filterOptions" name="filter" class="form-control me-2">
+    <select id="filterCollegeOptions" name="filter" class="form-control me-2">
       <option value="" disabled {{ selected if filter_option == ''}}>Filter</option>
       <option value="college_code" {{ selected if filter_option == 'college_code' }}>College Code</option>
       <option value="college_name" {{ selected if filter_option == 'college_name'}}>College Name</option>
     </select>
-    <input id="searchInput" name="search_input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_input if search_input }}">
+    <input id="searchCollegeInput" name="search_input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{ search_input if search_input }}">
     <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
     <button type="button" class="btn btn-outline-success" onclick="clearSearch()">All</button>
   </div>
@@ -39,7 +39,7 @@
     </tbody>
 </table>
 
-<!-- ADD COLLEGE MODAL -->
+<!-- CREATE College Modal -->
 <div class="modal fade" id="addCollegeModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form action="/college" method="POST">
@@ -94,7 +94,7 @@
   </div>
 </div>
 
-<!-- UPDATE COLLEGE MODAL -->
+<!-- UPDATE COllege Modal -->
 <div class="modal fade" id="updateCollegeModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <form action="{{ url_for('college.update_college') }}" method="POST">
@@ -128,7 +128,7 @@
 <script src="{{ url_for('static', filename='updateDelete.js') }}"></script>
 <script>
   function clearSearch() {
-    const form = document.getElementById('searchForm');
+    const form = document.getElementById('searchCollegeForm');
     form.reset();
 
     window.location.href = "{{ url_for('college.college') }}";

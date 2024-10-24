@@ -73,3 +73,15 @@ class CourseModel:
             return "College updated successfully!"
         except Exception as e:
             return f"Failed to update College: {str(e)}"
+        
+    @classmethod
+    def search_course(cls, filter, input):
+        try:
+            cur = mysql.connection.cursor()
+            sql = f"SELECT * FROM course WHERE {filter} = %s"
+            cur.execute(sql, (input,))
+            courses = cur.fetchall()
+            cur.close()
+            return courses
+        except Exception as e:
+            return f"Failed to fetch Courses: {str(e)}"

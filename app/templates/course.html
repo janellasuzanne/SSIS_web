@@ -7,16 +7,18 @@
 {% endblock %}
 
 {% block inner_content %}
-<form class="d-flex" role="search">
+<form id="searchCourseForm" class="d-flex" action="{{ url_for('course.search_course') }}" method="POST" role="search">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
-    <select class="form-control me-2">
-      <option value="" disabled selected>Filter</option>
-      <option value="courseCode">Course Code</option>
-      <option value="courseName">Course Name</option>
-      <option value="courseCollegeCode">College Code</option>
+    <select id="filterCourseOptions" name="course_filter" class="form-control me-2">
+      <option value="" disabled {{selected if filter_option == ''}}>Filter</option>
+      <option value="course_code" {{ selected if filter_option == 'course_code'}}>Course Code</option>
+      <option value="course_name" {{ selected if filter_option == 'course_name'}}>Course Name</option>
+      <option value="college_id" {{ selected if filter_option == 'college_id'}}>College Code</option>
     </select>
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <input id="searchCourseInput" name="course_search_input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{ course_search_input if course_search_input }}">
     <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <button type="button" class="btn btn-outline-success" onclick="clearSearch()">All</button>
   </div>
   <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addCourseModal"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
 </form>
@@ -138,4 +140,12 @@
 
 {% block scripts %} 
 <script src="{{ url_for('static', filename='updateDelete.js') }}"></script>
+<script>
+  function clearSearch() {
+    const form = document.getElementById('searchCourseForm');
+    form.reset();
+
+    window.location.href = "{{ url_for('course.course') }}";
+  }
+</script>
 {% endblock %}
