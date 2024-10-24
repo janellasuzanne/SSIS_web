@@ -53,3 +53,24 @@ def delete_student():
             result = StudentModel.delete_student(student_id)
             flash(result)
         return redirect(url_for("student.students"))
+    
+@student.route('/search_student', methods=['GET', 'POST'])
+def search_student():
+    add_form = AddStudentForm()
+
+    filter_option = request.form.get('student_filter')
+    student_search_input = request.form.get('student_search_input')
+
+    if not filter_option or not student_search_input:
+        return redirect(url_for('student.students'))
+    
+    try:
+        students = StudentModel.search_student(filter_option, student_search_input)
+        if students:
+            flash(f"Found {len(students)} result(s).", "success")
+        else:
+            flash("No results found.", "danger")
+    except Exception as e:
+        flash(f"Error: {str(e)}", "danger")
+    
+    return render_template("student.html", add_form=add_form, students=students, filter_option=filter_option, student_search_input=student_search_input)

@@ -72,3 +72,15 @@ class StudentModel:
             return "Student deleted successfully!"
         except Exception as e:
             return f"Failed to delete student: {str(e)}"
+        
+    @classmethod
+    def search_student(cls, filter, input):
+        try:
+            cur = mysql.connection.cursor()
+            sql = f"SELECT * FROM student WHERE {filter} = %s"
+            cur.execute(sql, (input,))
+            students = cur.fetchall()
+            cur.close()
+            return students
+        except Exception as e:
+            return f"Failed to fetch Students: {str(e)}"

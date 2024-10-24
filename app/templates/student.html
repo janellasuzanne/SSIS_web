@@ -7,19 +7,21 @@
 {% endblock %}
 
 {% block inner_content %}
-<form class="d-flex" role="search">
+<form id="searchStudentForm" class="d-flex" action="{{ url_for('student.search_student') }}" method="POST" role="search">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
-    <select class="form-control me-2">
-      <option value="" disabled selected>Filter</option>
-      <option value="studentId">ID</option>
-      <option value="studentCourse">Course Code</option>
-      <option value="studentFirstname">First Name</option>
-      <option value="studentLastname">Last Name</option>
-      <option value="studentYear">Year Level</option>
-      <option value="studentGender">Gender</option>
+    <select id="filterStudentOptions" name="student_filter" class="form-control me-2">
+      <option value="" disabled {{ selected if filter_option == ''}}>Filter</option>
+      <option value="student_id" {{ selected if filter_option == 'student_id'}}>ID</option>
+      <option value="course_id" {{ selected if filter_option == 'course_id' }}>Course Code</option>
+      <option value="firstname" {{ selected if filter_option == 'firstname' }}>First Name</option>
+      <option value="lastname" {{ selected if filter_option == 'lastname' }}>Last Name</option>
+      <option value="year" {{ selected if filter_option == 'year' }}>Year Level</option>
+      <option value="gender" {{ selected if filter_option == 'gender' }}>Gender</option>
     </select>
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <input id="searchStudentInput" name="student_search_input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{ student_search_input if student_search_input}}">
+    <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <button type="button" class="btn btn-outline-success" onclick="clearSearch()">All</button>
   </div>
   <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
 </form>
@@ -191,4 +193,12 @@
 
 {% block scripts %} 
 <script src="{{ url_for('static', filename='updateDelete.js') }}"></script>
+<script>
+  function clearSearch(){
+    const form = document.getElementById('searchStudentForm')
+    form.reset()
+
+    window.location.href = "{{ url_for('student.students')}}"
+  }
+</script>
 {% endblock %}
