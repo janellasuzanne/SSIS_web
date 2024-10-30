@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `student` (
   `course_id` VARCHAR(255) NOT NULL,
   `year` ENUM('1st', '2nd', '3rd', '4th'),
   `gender` ENUM('Male', 'Female'),
+  `profile_pic` VARCHAR(255),
   FOREIGN KEY (`course_id`) REFERENCES `course` (`course_code`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 

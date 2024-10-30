@@ -4,6 +4,8 @@ import requests
 
 from flask import request, render_template, redirect, url_for, flash
 
+from cloudinary.uploader import upload
+
 from . import student
 from app.models.studentModel import StudentModel
 from app.models.collegeModel import CollegeModel
@@ -24,7 +26,15 @@ def students():
             studentYear = add_form.studentYearInput.data
             studentGender = add_form.studentGenderInput.data
 
-            result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentCourse, studentYear, studentGender)
+            profile_picture = request.files['profile_picture']
+            if profile_picture:
+                photo_upload = upload(profile_picture
+                                      , folder='ssisStudentPhotos',
+                                      overwrite=True,
+                                      resource_type="image")
+                profile_pic_url = photo_upload.get('url')
+
+            result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentCourse, studentYear, studentGender, profile_pic_url)
             flash(result, 'success')
 
             return redirect(url_for('student.students'))

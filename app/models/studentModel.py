@@ -28,12 +28,12 @@ class StudentModel:
             return f"Failed to fetch student: {str(e)}"
         
     @classmethod
-    def add_student(cls, id, firstname, lastname, course, year, gender):
+    def add_student(cls, id, firstname, lastname, course, year, gender, profile_pic):
         try:
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO `student` (`student_id`, `firstname`, `lastname`, `course_id`, `year`, `gender`) VALUES (%s, %s, %s, %s, %s, %s)",
-                (id, firstname, lastname, course, year, gender,)
+                "INSERT INTO `student` (`student_id`, `firstname`, `lastname`, `course_id`, `year`, `gender`, `profile_pic`) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                (id, firstname, lastname, course, year, gender, profile_pic,)
             )
             mysql.connection.commit()
             return "Student created successfully!"
