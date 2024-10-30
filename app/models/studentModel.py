@@ -49,11 +49,11 @@ class StudentModel:
                     SET `student_id` = %s,
                         `firstname` = %s,
                         `lastname` = %s,
-                        `course` = %s,
+                        `course_id` = %s,
                         `year` = %s,
                         `gender` = %s
                     WHERE `student_id` = %s''',
-                    (id, firstname, lastname, course, year, gender),
+                    (id, firstname, lastname, course, year, gender, id),
             )
             mysql.connection.commit()
             return "Student updated successfully!"
