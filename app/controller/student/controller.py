@@ -4,7 +4,7 @@ import requests
 
 from flask import request, render_template, redirect, url_for, flash
 
-from cloudinary.uploader import upload
+from cloudinary.uploader import upload, destroy
 
 from . import student
 from app.models.studentModel import StudentModel
@@ -31,7 +31,8 @@ def students():
                 photo_upload = upload(profile_picture
                                       , folder='ssisStudentPhotos',
                                       overwrite=True,
-                                      resource_type="image")
+                                      resource_type="image",
+                                      return_delete_token=True)
                 profile_pic_url = photo_upload.get('url')
 
             result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentCourse, studentYear, studentGender, profile_pic_url)
@@ -53,8 +54,16 @@ def update_student():
         course = request.form['course']
         year = request.form['year']
         gender = request.form['gender']
+
+        profile_picture = request.files['photo']
+        if profile_picture:
+            photo_upload = upload(profile_picture,
+                                  folder='ssisStudentPhotos',
+                                  overwrite=True,
+                                  resource_type="image")
+            profile_pic_url = photo_upload.get('url')
         
-        result = StudentModel.update_student(id, firstname, lastname, course, year, gender)
+        result = StudentModel.update_student(id, firstname, lastname, course, year, gender, profile_pic_url)
         flash(result, 'success')
 
         return redirect(url_for('student.students'))
@@ -66,7 +75,13 @@ def delete_student():
     if request.method == "POST":
         student_id = request.form['code']
         if student_id:
+            profile_pic_url = StudentModel.get_profile_url(student_id)
+            profile_cloudId = profile_pic_url.split("/", 7)[-1].split(".")[0]
+
+            destroy(profile_cloudId)
+
             result = StudentModel.delete_student(student_id)
+
             flash(result, 'success')
 
         return redirect(url_for("student.students"))

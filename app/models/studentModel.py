@@ -22,10 +22,25 @@ class StudentModel:
                 "SELECT * FROM `student` WHERE student_id = %s",
                 (id,)
             )
-            mysql.connection.commit()
-            return "Student fetched successfully!"
+            student = cur.fetchall()
+            cur.close()
+            return student
         except Exception as e:
             return f"Failed to fetch student: {str(e)}"
+        
+    @classmethod
+    def get_profile_url(cls, id):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute(
+                "SELECT `profile_pic` FROM `student` WHERE student_id = %s",
+                (id,)
+            )
+            profile_url = cur.fetchall()
+            cur.close()
+            return str(profile_url)
+        except Exception as e:
+            return f"Failed to fetch student's profile id: {str(e)}"
         
     @classmethod
     def add_student(cls, id, firstname, lastname, course, year, gender, profile_pic):
@@ -41,7 +56,7 @@ class StudentModel:
             return f"Failed to create College: {str(e)}"
         
     @classmethod
-    def update_student(cls, id, firstname, lastname, course, year, gender):
+    def update_student(cls, id, firstname, lastname, course, year, gender, profile_pic):
         try:
             cur = mysql.connection.cursor()
             cur.execute(
@@ -51,9 +66,10 @@ class StudentModel:
                         `lastname` = %s,
                         `course_id` = %s,
                         `year` = %s,
-                        `gender` = %s
+                        `gender` = %s,
+                        `profile_pic` = %s
                     WHERE `student_id` = %s''',
-                    (id, firstname, lastname, course, year, gender, id),
+                    (id, firstname, lastname, course, year, gender, profile_pic, id),
             )
             mysql.connection.commit()
             return "Student updated successfully!"

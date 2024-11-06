@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentPage = document.body.getAttribute('data-page');
     console.log("Current page:", currentPage);
 
-    // Handle row click
+    // Handle row hover
     document.querySelectorAll('.hoverable-row').forEach(function (row) {
 
         row.addEventListener('mouseenter', function (event) {
@@ -31,31 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     });
-    // row.addEventListener('click', function (event) {
-    //     event.stopPropagation();
-
-    //     // Remove icons from the previously clicked row, if any
-    //     if (prevClickedRow && prevClickedRow !== this) {
-    //         removeIcons(prevClickedRow);
-    //     }
-
-    //     // Toggle icons on the clicked row
-    //     if (this.classList.contains('update-delete-icons')) {
-    //         removeIcons(this);
-    //         prevClickedRow = null;
-    //     } else {
-    //         addIcons(this);
-    //         prevClickedRow = this;
-    //     }
-    // });
-
-    // Remove icons when clicking outside the table
-    // document.addEventListener('click', function (event) {
-    //     if (prevClickedRow && !event.target.closest('.table')) {
-    //         removeIcons(prevClickedRow);
-    //         prevClickedRow = null;
-    //     }
-    // });
 
     // Function to add icons to a row
     function addIcons(row) {
@@ -95,11 +70,9 @@ document.addEventListener('DOMContentLoaded', function () {
         switch (currentPage) {
             case 'colleges':
                 modalId = 'updateCollegeModal';
-                // $('#updateCollegeModal').modal('show');
                 break;
             case 'courses':
                 modalId = 'updateCourseModal';
-                // $('#updateCourseModal').modal('show');
                 break;
             case 'students':
                 modalId = 'updateStudentModal';
@@ -125,7 +98,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const modalElement = modal.querySelector(`#${key}UpdateInput`);
                 console.log("Modal Element: ", modalElement);
                 if (modalElement) {
-                    modalElement.value = value;
+                    if (key === 'photo') {
+                        modalElement.src = value;
+                    } else {
+                        modalElement.value = value;
+                    }
                 }
 
                 const hiddenInput = modal.querySelector(`#hidden${capitalizeFirstLetter(key)}`);
@@ -180,7 +157,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const modalElement = modal.querySelector(`#${key}`);
                 console.log("Modal Element: ", modalElement);
                 if (modalElement) {
-                    modalElement.textContent = value;
+                    if (key === 'photo') {
+                        modalElement.src = value;
+                    } else {
+                        modalElement.textContent = value;
+                    }
                 }
 
                 // Update hidden input field, if it exists (e.g., for codes)
@@ -192,19 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
-        // // Get the college code and name from the clicked row's data attributes
-        // const collegeCode = row.dataset.code;
-        // const collegeName = row.dataset.name;
 
-        // // Set the modal's elements with the college data
-        // modal.querySelector('#code').textContent = collegeCode;
-        // modal.querySelector('#name').textContent = collegeName;
-
-        // // Set the hidden input for the college code in the form
-        // const hiddenInput = modal.querySelector('#hiddenCode');
-        // hiddenInput.value = collegeCode;
-
-        // Show the modal
         $(modal).modal('show');
     }
 

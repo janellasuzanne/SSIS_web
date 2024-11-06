@@ -41,7 +41,8 @@
     <tbody class="table-group-divider">
     {% for student in students %}
     <tr class="hoverable-row" data-code="{{ student[0] }}" data-firstname="{{ student[1] }}" data-lastname="{{ student[2] }}"
-    data-course="{{ student[3] }}" data-year="{{ student[4] }}" data-gender="{{ student[5] }}">
+    data-course="{{ student[3] }}" data-year="{{ student[4] }}" data-gender="{{ student[5] }}" 
+    data-photo="{{ student[6] or url_for('static', filename='images/default.jfif') }}">
       <td>
         <img src="{{ student[6] or url_for('static', filename='images/default.jfif') }}" 
              alt="Profile Picture" class="img-thumbnail" style="width: 50px; height: 50px;">
@@ -133,6 +134,7 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="modal-body">
           <h5 class="confirmation-message">Are you sure you want to delete the following student?</h5>
+          <img id="photo" name="profile_picture" src="" alt="Profile Picture" class="img-thumbnail" style="width: 150px; height: 150px;">
           <h6>Student ID: <strong id="code"></strong></h6>
           <h6>First Name: <strong id="firstname"></strong></h6>
           <h6>Last Name: <strong id="lastname"></strong></h6>
@@ -157,10 +159,13 @@
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="updateCollegeModalLabel">Update College Information</h1>
+          <h1 class="modal-title fs-5" id="updateStudentModalLabel">Update Student Information</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+         <div class="form-group text-center mb-3">
+            <img name="photo" id="photoUpdateInput" src="" alt="Current Photo" style="width: 150px; height: 150px; object-fit: cover;">
+        </div>
          <div class="form-group">
           <label for="updateStudentIdInput">Student ID</label>
           <input type="text" name="code" class="form-control" id="codeUpdateInput">
