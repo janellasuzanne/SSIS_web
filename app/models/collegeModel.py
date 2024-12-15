@@ -25,7 +25,23 @@ class CollegeModel:
             return college
         except Exception as e:
             return f"Faile to get college: {str(e)}"
-        
+    
+    # Get College by Course Code
+    @classmethod
+    def get_college_by_course_code(cls, code):
+        try:
+            cur = mysql.connection.cursor()
+            cur.execute('''SELECT `college_name` FROM `college` AS `clg`
+                        LEFT JOIN `course` AS `crs`
+                        ON `college_code` = `college_id`
+                        WHERE `course_code` = %s''',
+                        (code,)
+                        )
+            college = cur.fetchall()
+            return college
+        except Exception as e:
+            return f"Failed to get college: {str(e)}"
+                
     # Get College List; Return College Codes only
     @classmethod
     def get_college_codes(cls):

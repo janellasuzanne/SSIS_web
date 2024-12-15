@@ -60,8 +60,13 @@ def students():
             flash('Student NOT created!', 'danger')
 
     students = StudentModel.get_students()
+    studentsWithCollege = []
+    for student in students:
+        course = student[3]
+        college = CollegeModel.get_college_by_course_code(course)
+        studentsWithCollege.append(student + (college,))
     # return render_template("student.html", add_form=add_form, students=students, courses=courses)
-    return render_template("student.html", add_form=add_form, students=students)
+    return render_template("student.html", add_form=add_form, students=studentsWithCollege)
 
 @student.route('/update_student', methods=['GET','POST'])
 def update_student():

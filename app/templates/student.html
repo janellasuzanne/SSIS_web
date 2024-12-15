@@ -41,7 +41,7 @@
     <tbody class="table-group-divider">
     {% for student in students %}
     <tr class="hoverable-row" data-code="{{ student[0] }}" data-firstname="{{ student[1] }}" data-lastname="{{ student[2] }}"
-    data-course="{{ student[3] }}" data-year="{{ student[4] }}" data-gender="{{ student[5] }}" 
+    data-course="{{ student[3] }}" data-year="{{ student[4] }}" data-gender="{{ student[5] }}" data-college="{{ student[7][0][0] }}"
     data-photo="{{ student[6] or url_for('static', filename='images/default.jfif') }}">
       <td>
         <img src="{{ student[6] or url_for('static', filename='images/default.jfif') }}" 
@@ -53,6 +53,7 @@
       <td>{{ student[3] }}</td>
       <td>{{ student[4] }}</td>
       <td>{{ student[5] }}</td>
+      <td>{{ student[7][0][0] }}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -182,14 +183,14 @@
           <input type="text" name="lastname" class="form-control" id="lastnameUpdateInput">
         </div>
          <div class="form-group">
-          <label for="updateStudentCollegeInput">College</label>
-          <select name="college" class="form-select" id="collegeUpdateInput">
+           <label for="updateStudentCollegeInput">College</label>
+           <input type="text" name="college" class="form-control" id="collegeUpdateInput">
+          <!-- <select name="college" class="form-select" id="collegeUpdateInput">
             <option value="CON" disabled selected>College of Science and Mathematics</option>
             {% for college in colleges %}
               <option value="{{college.college_code}}">{{ college.college_name }}</option>
             {% endfor %}
-          </select>
-          <!-- <input type="text" name="college" class="form-control" id="collegeUpdateInput"> -->
+          </select> -->
         </div>
          <div class="form-group">
           <label for="updateStudentCourseInput">Course</label>
@@ -203,7 +204,6 @@
         </div>
          <div class="form-group">
           <label for="updateStudentYearInput">Year Level</label>
-          <!-- <input type="text" name="year" class="form-control" id="yearUpdateInput"> -->
           <select name="year" class="form-select" id="yearUpdateInput">
             <option value="1st">1st Year</option>
             <option value="2nd">2nd Year</option>
@@ -213,7 +213,6 @@
         </div>
          <div class="form-group">
           <label for="updateStudentGenderInput">Gender</label>
-          <!-- <input type="text" name="gender" class="form-control" id="genderUpdateInput"> -->
           <select name="gender" class="form-select" id="genderUpdateInput">
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -243,7 +242,7 @@
     const file = event.target.files[0]; // Get the selected file
 
     if (file) {
-        const reader = new FileReader(); // Create a FileReader to read the file
+        const reader = new FileReader();
 
         reader.onload = function(e) {
             // Update the src of the img element with the base64 data
