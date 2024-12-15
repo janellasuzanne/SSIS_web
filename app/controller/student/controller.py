@@ -6,6 +6,8 @@ from flask import request, render_template, redirect, url_for, flash
 
 from cloudinary.uploader import upload, destroy
 
+from config import CLOUD_NAME
+
 from . import student
 from app.models.studentModel import StudentModel
 from app.models.collegeModel import CollegeModel
@@ -17,6 +19,20 @@ def students():
     add_form = AddStudentForm()
     add_form.studentCollegeInput.choices = CollegeModel.get_college_codes()
 
+    # selectedCollege = request.form.get('selectedCollege') # PROBLEM
+    # possible SOLUTION: find a way to retrieve the data held by the hiddenfield "selectedCollege"
+    # selectedCollege = request.form.get('selectedCollege')
+    # if selectedCollege:
+    # else:
+    #     courseChoices = CourseModel.get_courses_by_college("CEBA")
+    # add_form.studentCourseInput.choices = courseChoices
+    # add_form.studentCourseInput.choices = [('TCo', 'Test Course')]
+
+    selectedCollege = request.form.get('selectedCollege')
+    print("selectedCollege")
+    courseChoices = CourseModel.get_courses_by_college(selectedCollege)
+    # courseChoices = CourseModel.get_courses_by_college('CEBA')
+    add_form.studentCourseInput.choices = courseChoices
     if request.method == 'POST':
         if add_form.validate_on_submit():
             studentId = add_form.studentIdInput.data
@@ -31,9 +47,10 @@ def students():
                 photo_upload = upload(profile_picture
                                       , folder='ssisStudentPhotos',
                                       overwrite=True,
-                                      resource_type="image",
-                                      return_delete_token=True)
+                                      resource_type="image")
                 profile_pic_url = photo_upload.get('url')
+            else:
+                profile_pic_url = ''
 
             result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentCourse, studentYear, studentGender, profile_pic_url)
             flash(result, 'success')
@@ -43,6 +60,7 @@ def students():
             flash('Student NOT created!', 'danger')
 
     students = StudentModel.get_students()
+    # return render_template("student.html", add_form=add_form, students=students, courses=courses)
     return render_template("student.html", add_form=add_form, students=students)
 
 @student.route('/update_student', methods=['GET','POST'])
@@ -55,13 +73,22 @@ def update_student():
         year = request.form['year']
         gender = request.form['gender']
 
-        profile_picture = request.files['photo']
+        profile_picture = request.files['photoInput']
         if profile_picture:
+            # delete the current profile picture from cloudinary
+            profile_pic_url = StudentModel.get_profile_url(id)
+            profile_cloudId = profile_pic_url.split("/", 7)[-1].split(".")[0]
+
+            destroy(profile_cloudId)
+
+            # upload the new profile picture
             photo_upload = upload(profile_picture,
                                   folder='ssisStudentPhotos',
                                   overwrite=True,
                                   resource_type="image")
             profile_pic_url = photo_upload.get('url')
+        else:
+            profile_pic_url = request.form.get('hiddenPhoto')
         
         result = StudentModel.update_student(id, firstname, lastname, course, year, gender, profile_pic_url)
         flash(result, 'success')

@@ -82,7 +82,7 @@
         <div class="modal-body">
          <div class="form-group">
           <label for="studentPicture">Profile Picture</label>
-          <input type="file" name="profile_picture" class="form-control" id="studentPicture" accept="image/*" required>
+          <input type="file" name="profile_picture" class="form-control" id="studentPicture" accept="image/*">
          </div>
          <div class="form-group">
           <label for="studentIdInput">ID Number</label>
@@ -99,6 +99,7 @@
          <div class="form-group">
           <label for="studentCollegeInput">College</label>
           {{ add_form.studentCollegeInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentCollegeInput")}}
+          <input type="hidden" id="selectedCollege" name="selectedCollege">
          </div>
          <div class="form-group">
           <label for="studentCourseInput">Course</label>
@@ -155,7 +156,7 @@
 <!-- UPDATE Student Modal -->
 <div class="modal fade" id="updateStudentModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <form action="{{ url_for('student.update_student') }}" method="POST">
+    <form action="{{ url_for('student.update_student') }}" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="modal-content">
         <div class="modal-header">
@@ -165,10 +166,12 @@
         <div class="modal-body">
          <div class="form-group text-center mb-3">
             <img name="photo" id="photoUpdateInput" src="" alt="Current Photo" style="width: 150px; height: 150px; object-fit: cover;">
+            <input type="file" name="photoInput" class="form-control" id="" accept="image/*">
+            <input type="hidden" id="hiddenPhoto" name="hiddenPhoto">
         </div>
          <div class="form-group">
           <label for="updateStudentIdInput">Student ID</label>
-          <input type="text" name="code" class="form-control" id="codeUpdateInput">
+          <input type="text" name="code" class="form-control" id="codeUpdateInput" readonly="readonly">
         </div>
          <div class="form-group">
           <label for="updateStudentFirstnameInput">First Name</label>
@@ -186,24 +189,35 @@
               <option value="{{college.college_code}}">{{ college.college_name }}</option>
             {% endfor %}
           </select>
+          <!-- <input type="text" name="college" class="form-control" id="collegeUpdateInput"> -->
         </div>
          <div class="form-group">
           <label for="updateStudentCourseInput">Course</label>
-          <select name="course" class="form-select" id="courseUpdateInput">
+          <!-- <select name="course" class="form-select" id="courseUpdateInput">
             <option value="BSPhy" selected>Bachelor of Science in Physics</option>
             {% for course in courses %}
               <option value="{{course.course_code}}">{{ course.course_name}}</option>
             {% endfor %}
-          </select>
-          <!-- <input type="text" name="course" class="form-control" id="courseUpdateInput"> -->
+          </select> -->
+          <input type="text" name="course" class="form-control" id="courseUpdateInput">
         </div>
          <div class="form-group">
           <label for="updateStudentYearInput">Year Level</label>
-          <input type="text" name="year" class="form-control" id="yearUpdateInput">
+          <!-- <input type="text" name="year" class="form-control" id="yearUpdateInput"> -->
+          <select name="year" class="form-select" id="yearUpdateInput">
+            <option value="1st">1st Year</option>
+            <option value="2nd">2nd Year</option>
+            <option value="3rd">3rd Year</option>
+            <option value="4th">4th Year</option>
+          </select>
         </div>
          <div class="form-group">
           <label for="updateStudentGenderInput">Gender</label>
-          <input type="text" name="gender" class="form-control" id="genderUpdateInput">
+          <!-- <input type="text" name="gender" class="form-control" id="genderUpdateInput"> -->
+          <select name="gender" class="form-select" id="genderUpdateInput">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i> Cancel </button>
@@ -224,5 +238,24 @@
 
     window.location.href = "{{ url_for('student.students')}}"
   }
+  
+  // document.getElementById('studentCollegeInput').addEventListener('change')
+
+  // const collegeSelect = document.getElementById('studentCollegeInput')
+  // const selectedCollegeInput = document.getElementById('selectedCollege')
+
+  // collegeSelect.addEventListener('change', function() {
+  //   const selectedCollege = collegeSelect.value; 
+  //   selectedCollegeInput.value = selectedCollege
+  //   // Do something with the selectedCollege value, 
+  //   // such as displaying it, making an AJAX request, etc.
+  //   console.log("Selected College:", selectedCollege); 
+  // });
+
+  // document.getElementById('studentCollegeInput').addEventListener('change', function(){
+  //   const selectedCollege = this.value;
+  //   console.log('Selected College: ', selectedCollege);
+
+  // });
 </script>
 {% endblock %}
