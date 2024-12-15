@@ -166,7 +166,7 @@
         <div class="modal-body">
          <div class="form-group text-center mb-3">
             <img name="photo" id="photoUpdateInput" src="" alt="Current Photo" style="width: 150px; height: 150px; object-fit: cover;">
-            <input type="file" name="photoInput" class="form-control" id="" accept="image/*">
+            <input type="file" name="photoInput" class="form-control" id="photoInput" accept="image/*">
             <input type="hidden" id="hiddenPhoto" name="hiddenPhoto">
         </div>
          <div class="form-group">
@@ -239,6 +239,26 @@
     window.location.href = "{{ url_for('student.students')}}"
   }
   
+  document.getElementById('photoInput').addEventListener('change', function(event) {
+    const file = event.target.files[0]; // Get the selected file
+
+    if (file) {
+        const reader = new FileReader(); // Create a FileReader to read the file
+
+        reader.onload = function(e) {
+            // Update the src of the img element with the base64 data
+            const photoUpdateInput = document.getElementById('photoUpdateInput');
+            photoUpdateInput.src = e.target.result;
+
+            // Update the hidden input with the same base64 data (if needed)
+            const hiddenPhoto = document.getElementById('hiddenPhoto');
+            hiddenPhoto.value = e.target.result;
+        };
+
+        reader.readAsDataURL(file); // Read the file as a data URL
+    }
+});
+
   // document.getElementById('studentCollegeInput').addEventListener('change')
 
   // const collegeSelect = document.getElementById('studentCollegeInput')
