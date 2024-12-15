@@ -20,7 +20,8 @@ def students():
     add_form.studentCollegeInput.choices = CollegeModel.get_college_codes()
 
     courses = CourseModel.get_courses()
-    add_form.studentCourseInput.choices = [(course[0], course[1]) for course in courses]
+    print("Sample course: ", courses[1][1])
+    add_form.studentCourseInput.choices = [(course[1], course[1]) for course in courses]
 
     if request.method == 'POST':
         if add_form.validate_on_submit():
@@ -45,18 +46,19 @@ def students():
             flash(result, 'success')
 
             return redirect(url_for('student.students'))
-        # if not add_form.validate_on_submit():
-        #     print("Validation errors:", add_form.errors)
-        else:
-            flash('Student NOT created!', 'danger')
+        if not add_form.validate_on_submit():
+            print("Validation errors:", add_form.errors)
+        # else:
+        #     flash('Student NOT created!', 'danger')
         
 
     students = StudentModel.get_students()
     studentsWithCollege = []
     for student in students:
         course = student[3]
-        college = CollegeModel.get_college_by_course_code(course)
+        college = CollegeModel.get_college_by_course_name(course)
         studentsWithCollege.append(student + (college,))
+    print(studentsWithCollege[0][7][0][0])
 
     colleges = CollegeModel.get_college_codes()
     return render_template("student.html", add_form=add_form, students=studentsWithCollege, colleges=colleges, courses=courses)
@@ -125,6 +127,11 @@ def search_student():
     
     try:
         students = StudentModel.search_student(filter_option, student_search_input)
+        studentsWithCollege = []
+        for student in students:
+            course = student[3]
+            college = CollegeModel.get_college_by_course_name(course)
+            studentsWithCollege.append(student + (college,))
         if students:
             flash(f"Found {len(students)} result(s).", "success")
         else:
@@ -132,4 +139,4 @@ def search_student():
     except Exception as e:
         flash(f"Error: {str(e)}", "danger")
     
-    return render_template("student.html", add_form=add_form, students=students, filter_option=filter_option, student_search_input=student_search_input)
+    return render_template("student.html", add_form=add_form, students=studentsWithCollege, filter_option=filter_option, student_search_input=student_search_input)

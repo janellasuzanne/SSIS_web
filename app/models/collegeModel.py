@@ -28,14 +28,14 @@ class CollegeModel:
     
     # Get College by Course Code
     @classmethod
-    def get_college_by_course_code(cls, code):
+    def get_college_by_course_name(cls, course_name):
         try:
             cur = mysql.connection.cursor()
             cur.execute('''SELECT `college_name` FROM `college` AS `clg`
                         LEFT JOIN `course` AS `crs`
                         ON `college_code` = `college_id`
-                        WHERE `course_code` = %s''',
-                        (code,)
+                        WHERE `course_name` = %s''',
+                        (course_name,)
                         )
             college = cur.fetchall()
             return college

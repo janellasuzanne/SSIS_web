@@ -47,13 +47,13 @@ class StudentModel:
         try:
             cur = mysql.connection.cursor()
             cur.execute(
-                "INSERT INTO `student` (`student_id`, `firstname`, `lastname`, `course_id`, `year`, `gender`, `profile_pic`) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                "INSERT INTO `student` (`student_id`, `firstname`, `lastname`, `student_course`, `year`, `gender`, `profile_pic`) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                 (id, firstname, lastname, course, year, gender, profile_pic,)
             )
             mysql.connection.commit()
             return "Student created successfully!"
         except Exception as e:
-            return f"Failed to create College: {str(e)}"
+            return f"Failed to create student: {str(e)}"
         
     @classmethod
     def update_student(cls, id, firstname, lastname, course, year, gender, profile_pic):
@@ -64,7 +64,7 @@ class StudentModel:
                     SET `student_id` = %s,
                         `firstname` = %s,
                         `lastname` = %s,
-                        `course_id` = %s,
+                        `student_course` = %s,
                         `year` = %s,
                         `gender` = %s,
                         `profile_pic` = %s
@@ -93,7 +93,11 @@ class StudentModel:
     def search_student(cls, filter, input):
         try:
             cur = mysql.connection.cursor()
-            sql = f"SELECT * FROM student WHERE {filter} = %s"
+            if filter == "student_course":
+                input = f'%{input}%'
+                sql = f"SELECT * FROM student WHERE {filter} LIKE %s"
+            else:
+                sql = f"SELECT * FROM student WHERE {filter} = %s"
             cur.execute(sql, (input,))
             students = cur.fetchall()
             cur.close()

@@ -21,13 +21,13 @@
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
     <select id="filterStudentOptions" name="student_filter" class="form-control me-2">
-      <option value="" disabled {{ selected if filter_option == ''}}>Filter</option>
-      <option value="student_id" {{ selected if filter_option == 'student_id'}}>ID</option>
-      <option value="course_id" {{ selected if filter_option == 'course_id' }}>Course Code</option>
-      <option value="firstname" {{ selected if filter_option == 'firstname' }}>First Name</option>
-      <option value="lastname" {{ selected if filter_option == 'lastname' }}>Last Name</option>
-      <option value="year" {{ selected if filter_option == 'year' }}>Year Level</option>
-      <option value="gender" {{ selected if filter_option == 'gender' }}>Gender</option>
+      <option value="" disabled selected>Filter</option>
+      <option value="student_id">ID</option>
+      <option value="student_course">Course</option>
+      <option value="firstname">First Name</option>
+      <option value="lastname">Last Name</option>
+      <option value="year">Year Level</option>
+      <option value="gender">Gender</option>
     </select>
     <input id="searchStudentInput" name="student_search_input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{ student_search_input if student_search_input}}">
     <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -105,7 +105,7 @@
           <select class="form-control" id="studentCourseInput" name="studentCourseInput" required>
             <option value="">Select Course</option>
             {% for course in courses %}
-            <option data-collegeid="{{ course[2] }}" value="{{ course[0] }}">{{ course[1] }}</option>
+            <option data-collegeid="{{ course[2] }}" value="{{ course[1] }}">{{ course[1] }}</option>
             {% endfor %}
           </select>
          </div>
@@ -187,11 +187,11 @@
         </div>
          <div class="form-group">
            <label for="updateStudentCollegeInput">College</label>
-           <select name="college" class="form-select" id="collegeUpdateInput">
+           <!-- <select name="college" class="form-select" id="collegeUpdateInput">
             <option value="BSN">Bachelor of Science in Nursing</option>
             <option value="BSCS">Bachelor of Science in Computer Science</option>
-          </select>
-           <!-- <input type="text" class="form-control" id="collegeUpdateInput"> -->
+          </select> -->
+           <input type="text" class="form-control" id="collegeUpdateInput">
         </div>
          <div class="form-group">
           <label for="updateStudentCourseInput">Course</label>
