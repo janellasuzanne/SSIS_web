@@ -7,6 +7,16 @@
 {% endblock %}
 
 {% block inner_content %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
+        {{ message }}
+      </div>
+    {% endfor%}
+  {% endif %}
+{% endwith %}
+
 <form id="searchStudentForm" class="d-flex" action="{{ url_for('student.search_student') }}" method="POST" role="search">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
@@ -53,21 +63,10 @@
       <td>{{ student[3] }}</td>
       <td>{{ student[4] }}</td>
       <td>{{ student[5] }}</td>
-      <td>{{ student[7][0][0] }}</td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
-
-{% with messages = get_flashed_messages(with_categories=True) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
-        {{ message }}
-      </div>
-    {% endfor%}
-  {% endif %}
-{% endwith %}
 
 <!-- CREATE Student Modal -->
 <div class="modal fade" id="addStudentModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -100,11 +99,15 @@
          <div class="form-group">
           <label for="studentCollegeInput">College</label>
           {{ add_form.studentCollegeInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentCollegeInput")}}
-          <input type="hidden" id="selectedCollege" name="selectedCollege">
-         </div>
-         <div class="form-group">
+        </div>
+        <div class="form-group">
           <label for="studentCourseInput">Course</label>
-          {{ add_form.studentCourseInput(class="form-control", placeholder="e.g. BSCS", required=True, id="studentCourseInput")}}
+          <select class="form-control" id="studentCourseInput" name="studentCourseInput" required>
+            <option value="">Select Course</option>
+            {% for course in courses %}
+            <option data-collegeid="{{ course[2] }}" value="{{ course[0] }}">{{ course[1] }}</option>
+            {% endfor %}
+          </select>
          </div>
          <div class="form-group">
           <label for="studentYearInput">Year Level</label>
@@ -184,22 +187,14 @@
         </div>
          <div class="form-group">
            <label for="updateStudentCollegeInput">College</label>
-           <input type="text" name="college" class="form-control" id="collegeUpdateInput">
-          <!-- <select name="college" class="form-select" id="collegeUpdateInput">
-            <option value="CON" disabled selected>College of Science and Mathematics</option>
-            {% for college in colleges %}
-              <option value="{{college.college_code}}">{{ college.college_name }}</option>
-            {% endfor %}
-          </select> -->
+           <select name="college" class="form-select" id="collegeUpdateInput">
+            <option value="BSN">Bachelor of Science in Nursing</option>
+            <option value="BSCS">Bachelor of Science in Computer Science</option>
+          </select>
+           <!-- <input type="text" class="form-control" id="collegeUpdateInput"> -->
         </div>
          <div class="form-group">
           <label for="updateStudentCourseInput">Course</label>
-          <!-- <select name="course" class="form-select" id="courseUpdateInput">
-            <option value="BSPhy" selected>Bachelor of Science in Physics</option>
-            {% for course in courses %}
-              <option value="{{course.course_code}}">{{ course.course_name}}</option>
-            {% endfor %}
-          </select> -->
           <input type="text" name="course" class="form-control" id="courseUpdateInput">
         </div>
          <div class="form-group">
@@ -256,25 +251,27 @@
 
         reader.readAsDataURL(file); // Read the file as a data URL
     }
-});
+  });
 
-  // document.getElementById('studentCollegeInput').addEventListener('change')
+  document.addEventListener("DOMContentLoaded", () => {
+    const collegeSelect = document.getElementById("studentCollegeInput");
+    const courseSelect = document.getElementById("studentCourseInput");
 
-  // const collegeSelect = document.getElementById('studentCollegeInput')
-  // const selectedCollegeInput = document.getElementById('selectedCollege')
+    collegeSelect.addEventListener("change", () => {
+      const selectedCollege = collegeSelect.value;
+      console.log("College Value: ", selectedCollege)
+      
+      // Show only courses matching the selected college
+      Array.from(courseSelect.options).forEach(option => {
+        if (option.dataset.collegeid === selectedCollege || option.disabled) {
+          option.hidden = false;
+        } else {
+          option.hidden = true;
+        }
+      });
 
-  // collegeSelect.addEventListener('change', function() {
-  //   const selectedCollege = collegeSelect.value; 
-  //   selectedCollegeInput.value = selectedCollege
-  //   // Do something with the selectedCollege value, 
-  //   // such as displaying it, making an AJAX request, etc.
-  //   console.log("Selected College:", selectedCollege); 
-  // });
-
-  // document.getElementById('studentCollegeInput').addEventListener('change', function(){
-  //   const selectedCollege = this.value;
-  //   console.log('Selected College: ', selectedCollege);
-
-  // });
+      courseSelect.value = "";
+    });
+  });
 </script>
 {% endblock %}

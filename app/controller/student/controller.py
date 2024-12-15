@@ -19,20 +19,9 @@ def students():
     add_form = AddStudentForm()
     add_form.studentCollegeInput.choices = CollegeModel.get_college_codes()
 
-    # selectedCollege = request.form.get('selectedCollege') # PROBLEM
-    # possible SOLUTION: find a way to retrieve the data held by the hiddenfield "selectedCollege"
-    # selectedCollege = request.form.get('selectedCollege')
-    # if selectedCollege:
-    # else:
-    #     courseChoices = CourseModel.get_courses_by_college("CEBA")
-    # add_form.studentCourseInput.choices = courseChoices
-    # add_form.studentCourseInput.choices = [('TCo', 'Test Course')]
+    courses = CourseModel.get_courses()
+    add_form.studentCourseInput.choices = [(course[0], course[1]) for course in courses]
 
-    selectedCollege = request.form.get('selectedCollege')
-    print("selectedCollege")
-    courseChoices = CourseModel.get_courses_by_college(selectedCollege)
-    # courseChoices = CourseModel.get_courses_by_college('CEBA')
-    add_form.studentCourseInput.choices = courseChoices
     if request.method == 'POST':
         if add_form.validate_on_submit():
             studentId = add_form.studentIdInput.data
@@ -56,8 +45,11 @@ def students():
             flash(result, 'success')
 
             return redirect(url_for('student.students'))
+        # if not add_form.validate_on_submit():
+        #     print("Validation errors:", add_form.errors)
         else:
             flash('Student NOT created!', 'danger')
+        
 
     students = StudentModel.get_students()
     studentsWithCollege = []
@@ -65,8 +57,9 @@ def students():
         course = student[3]
         college = CollegeModel.get_college_by_course_code(course)
         studentsWithCollege.append(student + (college,))
-    # return render_template("student.html", add_form=add_form, students=students, courses=courses)
-    return render_template("student.html", add_form=add_form, students=studentsWithCollege)
+
+    colleges = CollegeModel.get_college_codes()
+    return render_template("student.html", add_form=add_form, students=studentsWithCollege, colleges=colleges, courses=courses)
 
 @student.route('/update_student', methods=['GET','POST'])
 def update_student():
