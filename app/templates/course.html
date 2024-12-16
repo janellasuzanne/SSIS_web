@@ -10,7 +10,7 @@
 <form id="searchCourseForm" class="d-flex" action="{{ url_for('course.search_course') }}" method="POST" role="search">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
-    <select id="filterCourseOptions" name="course_filter" class="form-control me-2">
+    <select id="filterCourseOptions" name="course_filter" class="form-control me-2" onchange="saveFilterState()">
       <option value="" disabled selected>Filter</option>
       <option value="course_code">Course Code</option>
       <option value="course_name">Course Name</option>
@@ -157,9 +157,48 @@
 {% block scripts %} 
 <script src="{{ url_for('static', filename='updateDelete.js') }}"></script>
 <script>
+  // function clearSearch() {
+  //   const form = document.getElementById('searchCourseForm');
+  //   form.reset();
+
+  //   window.location.href = "{{ url_for('course.course') }}";
+  // }
+  document.addEventListener('DOMContentLoaded', function() {
+    restoreFilterState();
+    restoreSearchInputState();
+  });
+
+  const searchForm = 'Course';
+  const filterId = `filter${searchForm}Options`;
+  const searchInputId = `search${searchForm}Input`
+
+  function saveFilterState() {
+    localStorage.setItem('selectedFilter', document.getElementById(filterId).value);
+  }
+
+  function saveSearchState() {
+    localStorage.setItem('searchInput', document.getElementById(searchInputId).value);
+  }
+
+  function restoreFilterState() {
+    var selectedFilter = localStorage.getItem('selectedFilter');
+    if (selectedFilter) {
+      document.getElementById(filterId).value = selectedFilter;
+    }
+  }
+
+  function restoreSearchInputState() {
+    var searchInput = localStorage.getItem('searchInput');
+    if (searchInput) {
+      document.getElementById(searchInputId).value = searchInput;
+    }
+  }
+
   function clearSearch() {
-    const form = document.getElementById('searchCourseForm');
-    form.reset();
+    localStorage.removeItem('searchInput');
+    localStorage.removeItem('selectedFilter');
+    document.getElementById(filterId).value = '';
+    document.getElementById(searchInputId).value = '';
 
     window.location.href = "{{ url_for('course.course') }}";
   }

@@ -20,7 +20,7 @@
 <form id="searchStudentForm" class="d-flex" action="{{ url_for('student.search_student') }}" method="POST" role="search">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
-    <select id="filterStudentOptions" name="student_filter" class="form-control me-2">
+    <select id="filterStudentOptions" name="student_filter" class="form-control me-2" onchange="saveFilterState()">
       <option value="" disabled selected>Filter</option>
       <option value="student_id">ID</option>
       <option value="student_course">Course</option>
@@ -237,12 +237,12 @@
 {% block scripts %} 
 <script src="{{ url_for('static', filename='updateDelete.js') }}"></script>
 <script>
-  function clearSearch(){
-    const form = document.getElementById('searchStudentForm')
-    form.reset()
+  // function clearSearch(){
+  //   const form = document.getElementById('searchStudentForm')
+  //   form.reset()
 
-    window.location.href = "{{ url_for('student.students')}}"
-  }
+  //   window.location.href = "{{ url_for('student.students')}}"
+  // }
   
   document.getElementById('photoInput').addEventListener('change', function(event) {
     const file = event.target.files[0]; // Get the selected file
@@ -284,5 +284,45 @@
       courseSelect.value = "";
     });
   });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    restoreFilterState();
+    restoreSearchInputState();
+  });
+
+  const searchForm = 'Student';
+  const filterId = `filter${searchForm}Options`;
+  const searchInputId = `search${searchForm}Input`
+
+  function saveFilterState() {
+    localStorage.setItem('selectedFilter', document.getElementById(filterId).value);
+  }
+
+  function saveSearchState() {
+    localStorage.setItem('searchInput', document.getElementById(searchInputId).value);
+  }
+
+  function restoreFilterState() {
+    var selectedFilter = localStorage.getItem('selectedFilter');
+    if (selectedFilter) {
+      document.getElementById(filterId).value = selectedFilter;
+    }
+  }
+
+  function restoreSearchInputState() {
+    var searchInput = localStorage.getItem('searchInput');
+    if (searchInput) {
+      document.getElementById(searchInputId).value = searchInput;
+    }
+  }
+
+  function clearSearch() {
+    localStorage.removeItem('searchInput');
+    localStorage.removeItem('selectedFilter');
+    document.getElementById(filterId).value = '';
+    document.getElementById(searchInputId).value = '';
+
+    window.location.href = "{{ url_for('student.students')}}"
+  }
 </script>
 {% endblock %}
