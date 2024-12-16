@@ -96,7 +96,11 @@ class CourseModel:
     def search_course(cls, filter, input):
         try:
             cur = mysql.connection.cursor()
-            sql = f"SELECT * FROM course WHERE {filter} = %s"
+            if filter == "course_name":
+                input = f'%{input}%'
+                sql = f"SELECT * FROM course WHERE {filter} LIKE %s"
+            else:
+                sql = f"SELECT * FROM course WHERE {filter} = %s"
             cur.execute(sql, (input,))
             courses = cur.fetchall()
             cur.close()

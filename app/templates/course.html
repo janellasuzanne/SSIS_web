@@ -157,12 +157,6 @@
 {% block scripts %} 
 <script src="{{ url_for('static', filename='updateDelete.js') }}"></script>
 <script>
-  // function clearSearch() {
-  //   const form = document.getElementById('searchCourseForm');
-  //   form.reset();
-
-  //   window.location.href = "{{ url_for('course.course') }}";
-  // }
   document.addEventListener('DOMContentLoaded', function() {
     restoreFilterState();
     restoreSearchInputState();

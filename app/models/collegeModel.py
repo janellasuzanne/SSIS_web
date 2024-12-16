@@ -112,7 +112,11 @@ class CollegeModel:
     def search_college(cls, filter, input):
         try:
             cur = mysql.connection.cursor()
-            sql = f"SELECT * FROM college WHERE {filter} = %s"
+            if filter == 'college_name':
+                input = f'%{input}%'
+                sql = f"SELECT * FROM college WHERE {filter} LIKE %s"
+            else:
+                sql = f"SELECT * FROM college WHERE {filter} = %s"
             cur.execute(sql, (input,))
             colleges = cur.fetchall()
             cur.close()
