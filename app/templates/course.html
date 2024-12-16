@@ -11,10 +11,10 @@
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <div class="input-group">
     <select id="filterCourseOptions" name="course_filter" class="form-control me-2">
-      <option value="" disabled {{selected if filter_option == ''}}>Filter</option>
-      <option value="course_code" {{ selected if filter_option == 'course_code'}}>Course Code</option>
-      <option value="course_name" {{ selected if filter_option == 'course_name'}}>Course Name</option>
-      <option value="college_id" {{ selected if filter_option == 'college_id'}}>College Code</option>
+      <option value="" disabled selected>Filter</option>
+      <option value="course_code">Course Code</option>
+      <option value="course_name">Course Name</option>
+      <option value="college_id">College Code</option>
     </select>
     <input id="searchCourseInput" name="course_search_input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="{{ course_search_input if course_search_input }}">
     <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -22,6 +22,16 @@
   </div>
   <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#addCourseModal"><i class="fa-solid fa-square-plus fa-2xl"></i></button>
 </form>
+
+{% with messages = get_flashed_messages(with_categories=True) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
+        {{ message }}
+      </div>
+    {% endfor%}
+  {% endif %}
+{% endwith %}
 
 <table class="table table-striped table-hover">
     <thead>
@@ -41,16 +51,6 @@
     {% endfor %}
     </tbody>
 </table>
-
-{% with messages = get_flashed_messages(with_categories=True) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }} alert-dismissable fade show" role="alert">
-        {{ message }}
-      </div>
-    {% endfor%}
-  {% endif %}
-{% endwith %}
 
 <!-- CREATE Course Modal -->
 <div class="modal fade" id="addCourseModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
@@ -126,17 +126,23 @@
         <div class="modal-body">
          <div class="form-group">
           <label for="updateCollegeInput">College</label>
-          <input type="text" name="college" class="form-control" id="collegeUpdateInput" readonly="readonly">
+          <select name="college" class="form-control" id="collegeUpdateInput">
+            {% for college in colleges %}
+            <option value="{{ college[0] }}">{{ college[1] }}</option>
+            {% endfor %}
+          </select>
+          <!-- <input type="text" name="college" class="form-control" id="collegeUpdateInput"> -->
         </div>
          <div class="form-group">
           <label for="updateCourseCodeInput">Course Code</label>
-          <input type="text" name="code" class="form-control" id="codeUpdateInput" readonly="readonly">
+          <input type="text" name="code" class="form-control" id="codeUpdateInput">
         </div>
         <div class="form-group">
           <label for="updateCourseNameInput">Course Name</label>
           <input type="text" name="name" class="form-control" id="nameUpdateInput">
           <input type="hidden" name="code" id="hiddenUpdateCourseCodeInput">
         </div>
+        <input type="hidden" name="hiddenCode" id="hiddenCode">
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark" style="color: #ffffff;"></i> Cancel </button>
           <button type="submit" class="btn btn-warning AddFaculty"> <i class="fa-solid fa-pen-to-square ms-3"></i> Update </button>

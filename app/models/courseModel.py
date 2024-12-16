@@ -69,12 +69,23 @@ class CourseModel:
             return f"Failed to delete course: {str(e)}"
         
     @classmethod
-    def update_course(cls, code, name):
+    def update_course(cls, newCode, name, college, oldCode):
         try:
+            if not newCode or not name or not oldCode:
+                return "Cannot have empty fields!"
+            
+             # Custom validation for newCode
+            if newCode.strip() == "" or not newCode.isalpha():
+                return "College Code cannot be only spaces and should contain only letters."
+
+            # Custom validation for name
+            if name.strip() == "" or not all(c.isalpha() or c.isspace() for c in name):
+                return "College Name should only contain letters and spaces."
+            
             cur = mysql.connection.cursor()
             cur.execute(
-                "UPDATE `course` SET `course_name` = %s WHERE `course_code` = %s",
-                (name, code),
+                "UPDATE `course` SET `course_code` = %s, `course_name` = %s, `college_id` = %s WHERE `course_code` = %s",
+                (newCode, name, college, oldCode),
             )
             mysql.connection.commit()
             return "College updated successfully!"

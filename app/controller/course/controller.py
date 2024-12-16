@@ -27,16 +27,19 @@ def course_view():
         else:
             flash('Course not created!', 'danger')
 
+    colleges = CollegeModel.get_college_codes()
     courses = CourseModel.get_courses()
-    return render_template("course.html", add_form=add_form, courses=courses)
+    return render_template("course.html", add_form=add_form, colleges=colleges, courses=courses)
 
 @course.route('/update_course', methods=['GET', 'POST'])
 def update_course():
     if request.method == "POST":
-        code = request.form['code']
-        name = request.form['name']
+        newCode = request.form.get('code')
+        name = request.form.get('name')
+        college = request.form.get('college')
+        oldCode = request.form.get('hiddenCode')
 
-        result = CourseModel.update_course(code, name)
+        result = CourseModel.update_course(newCode, name, college, oldCode)
         flash(result, 'success')
         return redirect(url_for('course.course'))
     else:
