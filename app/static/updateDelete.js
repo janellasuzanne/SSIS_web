@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const modal = document.getElementById(modalId);
+        console.log("Modal: ", modalId)
         if (!modal) {
             console.error("Modal not found!");
             return;
@@ -118,42 +119,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
+        if (currentPage === 'students') {
+            const collegeUpdateSelect = document.getElementById("collegeUpdateInput");
+            const courseUpdateSelect = document.getElementById("courseUpdateInput");
 
-        const collegeUpdateSelect = document.getElementById("collegeUpdateInput");
-        const courseUpdateSelect = document.getElementById("courseUpdateInput");
+            function filterCoursesByCollege(preserveSelection = false) {
+                const selectedCollege = collegeUpdateSelect.value;
+                const currentCourse = courseUpdateSelect.value; // Preserve the current course if needed
 
-        function filterCoursesByCollege(preserveSelection = false) {
-            const selectedCollege = collegeUpdateSelect.value;
-            const currentCourse = courseUpdateSelect.value; // Preserve the current course if needed
+                // Show only courses matching the selected college
+                Array.from(courseUpdateSelect.options).forEach(option => {
+                    if (option.dataset.updatecollegeid === selectedCollege || option.disabled) {
+                        option.hidden = false;
+                    } else {
+                        option.hidden = true;
+                    }
+                });
 
-            // Show only courses matching the selected college
-            Array.from(courseUpdateSelect.options).forEach(option => {
-                if (option.dataset.updatecollegeid === selectedCollege || option.disabled) {
-                    option.hidden = false;
+                // Reset the course selection unless preserving it
+                if (!preserveSelection) {
+                    courseUpdateSelect.value = "";
+                } else if (Array.from(courseUpdateSelect.options).some(option => option.value === currentCourse && !option.hidden)) {
+                    // Ensure the current course is still valid
+                    courseUpdateSelect.value = currentCourse;
                 } else {
-                    option.hidden = true;
+                    courseUpdateSelect.value = ""; // Reset if the current course is invalid
                 }
-            });
-
-            // Reset the course selection unless preserving it
-            if (!preserveSelection) {
-                courseUpdateSelect.value = "";
-            } else if (Array.from(courseUpdateSelect.options).some(option => option.value === currentCourse && !option.hidden)) {
-                // Ensure the current course is still valid
-                courseUpdateSelect.value = currentCourse;
-            } else {
-                courseUpdateSelect.value = ""; // Reset if the current course is invalid
             }
-        }
 
-        // Attach the change event listener (only once to avoid duplicates)
-        if (!collegeUpdateSelect.dataset.listenerAttached) {
-            collegeUpdateSelect.addEventListener("change", () => filterCoursesByCollege(false));
-            collegeUpdateSelect.dataset.listenerAttached = true;
-        }
+            // Attach the change event listener (only once to avoid duplicates)
+            if (!collegeUpdateSelect.dataset.listenerAttached) {
+                collegeUpdateSelect.addEventListener("change", () => filterCoursesByCollege(false));
+                collegeUpdateSelect.dataset.listenerAttached = true;
+            }
 
-        // Filter courses initially based on the current college and preserve selection
-        filterCoursesByCollege(true);
+            // Filter courses initially based on the current college and preserve selection
+            filterCoursesByCollege(true);
+        }
 
         // Show the modal
         $(modal).modal('show');

@@ -71,12 +71,24 @@ class CollegeModel:
             return f"Failed to create College: {str(e)}"
 
     @classmethod
-    def update_college(cls, code, name):
+    def update_college(cls, newCode, name, oldCode):
         try:
+            if not newCode or not name or not oldCode:
+                return "Cannot have empty fields!"
+            
+             # Custom validation for newCode
+            if newCode.strip() == "" or not newCode.isalpha():
+                return "College Code cannot be only spaces and should contain only letters."
+
+            # Custom validation for name
+            if name.strip() == "" or not all(c.isalpha() or c.isspace() for c in name):
+                return "College Name should only contain letters and spaces."
+
+            
             cur = mysql.connection.cursor()
             cur.execute(
-                "UPDATE `college` SET `college_name` = %s WHERE `college_code` = %s",
-                (name, code),
+                "UPDATE `college` SET `college_code` = %s, `college_name` = %s WHERE `college_code` = %s",
+                (newCode, name, oldCode),
             )
             mysql.connection.commit()
             return "College updated successfully!"

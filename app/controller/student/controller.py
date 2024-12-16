@@ -46,12 +46,11 @@ def students():
             flash(result, 'success')
 
             return redirect(url_for('student.students'))
-        if not add_form.validate_on_submit():
-            print("Validation errors:", add_form.errors)
-        # else:
-        #     flash('Student NOT created!', 'danger')
+        # if not add_form.validate_on_submit():
+        #     print("Validation errors:", add_form.errors)
+        else:
+            flash('Student NOT created!', 'danger')
         
-
     students = StudentModel.get_students()
     studentsWithCollege = []
     for student in students:

@@ -30,10 +30,11 @@ def college_view():
 @college.route('/update_college', methods=['GET','POST'])
 def update_college():
     if request.method == 'POST':
-        code = request.form['code']
-        name = request.form['name']
+        newCode = request.form.get('code')
+        name = request.form.get('name')
+        oldCode = request.form.get('hiddenCode')
         
-        result = CollegeModel.update_college(code, name)
+        result = CollegeModel.update_college(newCode, name, oldCode)
         flash(result, 'success')
 
         return redirect(url_for('college.college'))

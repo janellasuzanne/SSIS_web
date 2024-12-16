@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `college`;
 -- Create the college table
 CREATE TABLE IF NOT EXISTS `college` (
   `college_code` VARCHAR(255) PRIMARY KEY,
-  `college_name` VARCHAR(255) NOT NULL
+  `college_name` VARCHAR(255) NOT NULL UNIQUE
 );
 
 INSERT INTO `college` (`college_code`, `college_name`) VALUES
