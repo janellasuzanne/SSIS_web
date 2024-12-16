@@ -58,6 +58,20 @@ class StudentModel:
     @classmethod
     def update_student(cls, id, firstname, lastname, course, year, gender, profile_pic):
         try:
+            if not firstname or not lastname:
+                return "Cannot have empty fields!"
+            
+             # Custom validation for newCode
+            # if firstname.strip() == "" or not lastname.isalpha():
+            #     return "Name cannot be only spaces."
+
+            # Custom validation for name
+            if firstname.strip() == "" or not all(c.isalpha() or c.isspace() for c in firstname):
+                return "First Name should only contain letters and spaces."
+            
+            if lastname.strip() == "" or not all(c.isalpha() or c.isspace() for c in lastname):
+                return "Last Name should only contain letters and spaces."
+            
             cur = mysql.connection.cursor()
             cur.execute(
                 '''UPDATE `student`
