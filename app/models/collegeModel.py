@@ -31,7 +31,7 @@ class CollegeModel:
     def get_college_by_course_name(cls, course_name):
         try:
             cur = mysql.connection.cursor()
-            cur.execute('''SELECT `college_name` FROM `college` AS `clg`
+            cur.execute('''SELECT `college_code` FROM `college` AS `clg`
                         LEFT JOIN `course` AS `crs`
                         ON `college_code` = `college_id`
                         WHERE `course_name` = %s''',

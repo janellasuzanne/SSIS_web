@@ -100,6 +100,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (modalElement) {
                     if (key === 'photo') {
                         modalElement.src = value;
+                    } else if (modalElement.tagName === 'SELECT') {
+                        modalElement.value = value;
+
+                        // If updating the college, trigger the filtering logic for courses
+                        if (key === 'college') {
+                            document.getElementById("collegeUpdateInput").dispatchEvent(new Event('change'));
+                        }
                     } else {
                         modalElement.value = value;
                     }
@@ -111,6 +118,42 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         }
+
+        const collegeUpdateSelect = document.getElementById("collegeUpdateInput");
+        const courseUpdateSelect = document.getElementById("courseUpdateInput");
+
+        function filterCoursesByCollege(preserveSelection = false) {
+            const selectedCollege = collegeUpdateSelect.value;
+            const currentCourse = courseUpdateSelect.value; // Preserve the current course if needed
+
+            // Show only courses matching the selected college
+            Array.from(courseUpdateSelect.options).forEach(option => {
+                if (option.dataset.updatecollegeid === selectedCollege || option.disabled) {
+                    option.hidden = false;
+                } else {
+                    option.hidden = true;
+                }
+            });
+
+            // Reset the course selection unless preserving it
+            if (!preserveSelection) {
+                courseUpdateSelect.value = "";
+            } else if (Array.from(courseUpdateSelect.options).some(option => option.value === currentCourse && !option.hidden)) {
+                // Ensure the current course is still valid
+                courseUpdateSelect.value = currentCourse;
+            } else {
+                courseUpdateSelect.value = ""; // Reset if the current course is invalid
+            }
+        }
+
+        // Attach the change event listener (only once to avoid duplicates)
+        if (!collegeUpdateSelect.dataset.listenerAttached) {
+            collegeUpdateSelect.addEventListener("change", () => filterCoursesByCollege(false));
+            collegeUpdateSelect.dataset.listenerAttached = true;
+        }
+
+        // Filter courses initially based on the current college and preserve selection
+        filterCoursesByCollege(true);
 
         // Show the modal
         $(modal).modal('show');

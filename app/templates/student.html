@@ -63,6 +63,7 @@
       <td>{{ student[3] }}</td>
       <td>{{ student[4] }}</td>
       <td>{{ student[5] }}</td>
+      <td>{{ student[7][0][0] }}</td>
     </tr>
     {% endfor %}
     </tbody>
@@ -98,7 +99,13 @@
          </div>
          <div class="form-group">
           <label for="studentCollegeInput">College</label>
-          {{ add_form.studentCollegeInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentCollegeInput")}}
+          <select class="form-control" id="studentCollegeInput" name="studentCollegeInput" required>
+            <option value="">Select College</option>
+            {% for college in colleges %}
+            <option value="{{ college[0] }}">{{ college[1] }}</option>
+            {% endfor %}
+          </select>
+          <!-- {{ add_form.studentCollegeInput(class="form-control", placeholder="e.g. CCS", required=True, id="studentCollegeInput")}} -->
         </div>
         <div class="form-group">
           <label for="studentCourseInput">Course</label>
@@ -187,15 +194,19 @@
         </div>
          <div class="form-group">
            <label for="updateStudentCollegeInput">College</label>
-           <!-- <select name="college" class="form-select" id="collegeUpdateInput">
-            <option value="BSN">Bachelor of Science in Nursing</option>
-            <option value="BSCS">Bachelor of Science in Computer Science</option>
-          </select> -->
-           <input type="text" class="form-control" id="collegeUpdateInput">
+           <select name="college" class="form-control" id="collegeUpdateInput">
+            {% for college in colleges %}
+            <option value="{{ college[0] }}">{{ college[1] }}</option>
+            {% endfor %}
+           </select>
         </div>
          <div class="form-group">
           <label for="updateStudentCourseInput">Course</label>
-          <input type="text" name="course" class="form-control" id="courseUpdateInput">
+          <select name="course" class="form-control" id="courseUpdateInput">
+            {% for course in courses %}
+            <option data-updatecollegeid="{{ course[2] }}" value="{{ course[1] }}">{{ course[1] }}</option>
+            {% endfor %}
+          </select>
         </div>
          <div class="form-group">
           <label for="updateStudentYearInput">Year Level</label>
