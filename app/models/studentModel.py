@@ -7,7 +7,7 @@ class StudentModel:
         try:
             cur = mysql.connection.cursor()
             cur.execute(
-                "SELECT * FROM `student` ORDER BY `student_id` ASC"
+                "SELECT * FROM `student` ORDER BY `year` DESC"
             )
             students = cur.fetchall()
             return students
