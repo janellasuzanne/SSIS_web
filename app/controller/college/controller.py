@@ -18,11 +18,20 @@ def college_view():
             collegeName = add_form.collegeNameInput.data
 
             result = CollegeModel.add_college(collegeCode, collegeName)
-            flash(result, 'success')
+            if "successfully" in result:
+                flash(result, 'success')
+            elif "duplicate" in result.lower():
+                flash("College not created: Cannot have duplicate colleges.", 'danger')
+            else:
+                flash(result, 'danger')
+            # flash(result, 'success')
 
             return redirect(url_for('college.college'))
         else:
-            flash('College NOT created!', 'danger')
+             for field, errors in add_form.errors.items():
+                for error in errors:
+                    flash(f"College not created: {field.replace('Input', '').capitalize()} - {error}", 'danger')
+            # flash('College NOT created!', 'danger')
 
     colleges = CollegeModel.get_colleges()
     return render_template("college.html", add_form=add_form, colleges=colleges, page_name='colleges')
@@ -35,11 +44,16 @@ def update_college():
         oldCode = request.form.get('hiddenCode')
         
         result = CollegeModel.update_college(newCode, name, oldCode)
-        flash(result, 'success')
 
-        return redirect(url_for('college.college'))
-    else:
-        flash('College information NOT updated!', 'danger')
+        if "successfully" in result:
+            flash(result, 'success')
+        else:
+            flash(result, 'danger')
+        # flash(result, 'success')
+
+    return redirect(url_for('college.college'))
+    # else:
+    #     flash('College information NOT updated!', 'danger')
 
 @college.route('/delete_college', methods=['POST'])
 def delete_college():

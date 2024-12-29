@@ -24,7 +24,7 @@ class CollegeModel:
             college = cur.fetchall()
             return college
         except Exception as e:
-            return f"Faile to get college: {str(e)}"
+            return f"Failed to get college: {str(e)}"
     
     # Get College by Course Code
     @classmethod
@@ -73,19 +73,24 @@ class CollegeModel:
     @classmethod
     def update_college(cls, newCode, name, oldCode):
         try:
+            # validations
             if not newCode or not name or not oldCode:
-                return "Cannot have empty fields!"
+                return "College not updated: Cannot have empty fields!"
             
-             # Custom validation for newCode
             if newCode.strip() == "" or not newCode.isalpha():
-                return "College Code cannot be only spaces and should contain only letters."
+                return "College not updated: College Code cannot be only spaces and should contain only letters."
 
-            # Custom validation for name
             if name.strip() == "" or not all(c.isalpha() or c.isspace() for c in name):
-                return "College Name should only contain letters and spaces."
+                return "College not updated: College Name should only contain letters and spaces."
 
             
             cur = mysql.connection.cursor()
+
+            # duplicate validations
+            cur.execute("SELECT * FROM `college` WHERE `college_code` = %s AND `college_code` != %s", (newCode, oldCode))
+            if cur.fetchone():
+                return "College not updated: Cannot have duplicate colleges."
+
             cur.execute(
                 "UPDATE `college` SET `college_code` = %s, `college_name` = %s WHERE `college_code` = %s",
                 (newCode, name, oldCode),
