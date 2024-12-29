@@ -46,14 +46,25 @@ class CourseModel:
     def add_course(cls, collegeId, code, name):
         try:
             cur = mysql.connection.cursor()
+
+            # duplicate validation
+            cur.execute(
+            "SELECT COUNT(*) FROM `course` WHERE `course_code` = %s AND `college_id` = %s",
+            (code, collegeId)
+            )
+            if cur.fetchone()[0] > 0:
+                raise ValueError("Duplicate course entry.")
+            
             cur.execute(
                 "INSERT INTO `course` (`course_code`, `course_name`, `college_id`) VALUES (%s, %s, %s)",
                 (code, name, collegeId),
             )
             mysql.connection.commit()
             return "Course created successfully!"
+        # except ValueError as ve:
+        #     return str(ve)
         except Exception as e:
-            return f"Failed to create College: {str(e)}"
+            return f"Failed to create Course: {str(e)}"
         
     @classmethod
     def delete_course(cls, course_code):

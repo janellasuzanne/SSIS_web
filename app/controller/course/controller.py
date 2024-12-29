@@ -19,13 +19,25 @@ def course_view():
             collegeId = add_form.collegeIdInput.data
             courseCode = add_form.courseCodeInput.data
             courseName = add_form.courseNameInput.data
-
-            result = CourseModel.add_course(collegeId, courseCode, courseName)
-            flash(result, 'success')
-
+            try:
+                result = CourseModel.add_course(collegeId, courseCode, courseName)
+                if "successfully" in result:
+                    flash(result, 'success')
+                elif "duplicate" in result.lower():
+                    flash("Course not created: Cannot have duplicate courses.", 'danger')
+                else:
+                    flash(result, 'danger')
+            except Exception as e:
+                if "Duplicate entry" in str(e):
+                    flash("Course not created: Cannot have duplicate courses.", 'danger')
             return redirect(url_for('course.course'))
         else:
-            flash('Course not created!', 'danger')
+            for field_name, errors in add_form.errors.items():
+                for error in errors:
+                    field_label = getattr(add_form, field_name).label.text
+                    flash(f"Course not created: {field_label} {error}", 'danger')
+
+            # flash('Course not created!', 'danger')
 
     colleges = CollegeModel.get_college_codes()
     courses = CourseModel.get_courses()
