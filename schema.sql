@@ -47,8 +47,8 @@ DROP TABLE IF EXISTS `course`;
 CREATE TABLE IF NOT EXISTS `course` (
   `course_code` VARCHAR(255) PRIMARY KEY,
   `course_name` VARCHAR(255) NOT NULL UNIQUE,
-  `college_id` VARCHAR(255) NOT NULL,
-  FOREIGN KEY (`college_id`) REFERENCES `college` (`college_code`) ON DELETE CASCADE ON UPDATE CASCADE
+  `college_id` VARCHAR(255),
+  FOREIGN KEY (`college_id`) REFERENCES `college` (`college_code`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- Drop the table if it exists
