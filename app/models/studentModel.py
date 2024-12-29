@@ -59,13 +59,13 @@ class StudentModel:
     def update_student(cls, id, firstname, lastname, course, year, gender, profile_pic):
         try:
             if not firstname or not lastname:
-                return "Cannot have empty fields!"
+                return "Student not updated: Cannot have empty fields!"
             
             if firstname.strip() == "" or not all(c.isalpha() or c.isspace() for c in firstname):
-                return "First Name should only contain letters and spaces."
+                return "Student not updated: First Name should only contain letters and spaces."
             
             if lastname.strip() == "" or not all(c.isalpha() or c.isspace() for c in lastname):
-                return "Last Name should only contain letters and spaces."
+                return "Student not updated: Last Name should only contain letters and spaces."
             
             cur = mysql.connection.cursor()
             cur.execute(

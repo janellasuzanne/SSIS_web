@@ -64,13 +64,21 @@ def students():
                 profile_pic_url = ''
 
             result = StudentModel.add_student(studentId, studentFirstname, studentLastname, studentCourse, studentYear, studentGender, profile_pic_url)
-            flash(result, 'success')
+            if "successfully" in result:
+                flash(result, 'success')
+            elif "duplicate" in result.lower():
+                flash("Student not created: Cannot have duplicate students.", 'danger')
+            else:
+                flash(result, 'danger')
 
             return redirect(url_for('student.students'))
         # if not add_form.validate_on_submit():
         #     print("Validation errors:", add_form.errors)
         else:
-            flash('Student NOT created!', 'danger')
+             for field, errors in add_form.errors.items():
+                for error in errors:
+                    flash(f"Student not created: {field.replace('Input', '').capitalize()} - {error}", 'danger')
+            # flash('Student NOT created!', 'danger')
         
     students = StudentModel.get_students()
     studentsWithCollege = []
@@ -111,7 +119,11 @@ def update_student():
             profile_pic_url = request.form.get('hiddenPhoto')
         
         result = StudentModel.update_student(id, firstname, lastname, course, year, gender, profile_pic_url)
-        flash(result, 'success')
+        
+        if "successfully" in result:
+            flash(result, 'success')
+        else:
+            flash(result, 'danger')
 
         return redirect(url_for('student.students'))
     else:
