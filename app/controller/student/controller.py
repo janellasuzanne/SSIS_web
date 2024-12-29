@@ -2,6 +2,7 @@ import os
 import pathlib
 import requests
 
+from werkzeug.utils import secure_filename
 from flask import request, render_template, redirect, url_for, flash
 
 from cloudinary.uploader import upload, destroy
@@ -13,6 +14,13 @@ from app.models.studentModel import StudentModel
 from app.models.collegeModel import CollegeModel
 from app.models.courseModel import CourseModel
 from app.controller.student.forms import AddStudentForm
+
+MAX_FILE_SIZE = 1 * 1024 * 1024 #5mb
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'bmp'}
+
+# validate photo
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @student.route('/students', methods=['GET', 'POST'], endpoint='students')
 def students():
@@ -34,6 +42,19 @@ def students():
 
             profile_picture = request.files['profile_picture']
             if profile_picture:
+                filename = secure_filename(profile_picture.filename)
+
+                # check file type
+                if not allowed_file(filename):
+                    flash('Invalid file type. Only image files are allowed!', 'danger')
+                    return redirect(url_for('student.students'))
+                
+                # check file size
+                if profile_picture.content_length > MAX_FILE_SIZE:
+                    flash(f'File size exceeds the maximum limit of {MAX_FILE_SIZE // (1024 * 1024)}MB.', 'danger')
+                    return redirect(url_for('student.students'))
+                
+
                 photo_upload = upload(profile_picture
                                       , folder='ssisStudentPhotos',
                                       overwrite=True,
