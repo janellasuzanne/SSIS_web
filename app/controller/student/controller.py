@@ -48,12 +48,6 @@ def students():
                 if not allowed_file(filename):
                     flash('Invalid file type. Only image files are allowed!', 'danger')
                     return redirect(url_for('student.students'))
-                
-                # check file size
-                # if profile_picture.content_length > MAX_FILE_SIZE:
-                #     flash(f'File size exceeds the maximum limit of {MAX_FILE_SIZE // (1024 * 1024)}MB.', 'danger')
-                #     return redirect(url_for('student.students'))
-                
 
                 photo_upload = upload(profile_picture
                                       , folder='ssisStudentPhotos',

@@ -67,6 +67,9 @@ class StudentModel:
             if lastname.strip() == "" or not all(c.isalpha() or c.isspace() for c in lastname):
                 return "Student not updated: Last Name should only contain letters and spaces."
             
+            if not profile_pic:
+                return "Student not updated: Invalid profile photo."
+            
             cur = mysql.connection.cursor()
             cur.execute(
                 '''UPDATE `student`
