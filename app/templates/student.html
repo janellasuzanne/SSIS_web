@@ -317,5 +317,26 @@
 
     window.location.href = "{{ url_for('student.students')}}"
   }
+
+  const maxSizeInBytes = 1 * 1024 * 1024; // 5MB
+  const maxSize = maxSizeInBytes / (1024 * 1024);
+
+  document.getElementById("studentPicture").addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file && file.size > maxSizeInBytes) {
+      alert(`File size must not exceed ${maxSize} MB.`);
+      this.value = ""; // Clear the file input
+    }
+  });
+
+  document.getElementById("photoInput").addEventListener("change", function () {
+    const file = this.files[0];
+
+    if (file && file.size > maxSizeInBytes) {
+      alert(`File size must not exceed ${maxSize} MB.`);
+      this.value = ""; // Clear the file input
+    }
+  });
 </script>
 {% endblock %}
