@@ -52,10 +52,14 @@ def update_course():
         oldCode = request.form.get('hiddenCode')
 
         result = CourseModel.update_course(newCode, name, college, oldCode)
-        flash(result, 'success')
-        return redirect(url_for('course.course'))
-    else:
-        flash('Course information NOT updated!', 'danger')
+
+        if "successfully" in result:
+            flash(result, 'success')
+        else:
+            flash(result, 'danger')
+    return redirect(url_for('course.course'))
+    # else:
+    #     flash('Course information NOT updated!', 'danger')
 
 @course.route('/delete_course', methods=['POST'])
 def delete_course():

@@ -83,25 +83,31 @@ class CourseModel:
     def update_course(cls, newCode, name, college, oldCode):
         try:
             if not newCode or not name or not oldCode:
-                return "Cannot have empty fields!"
+                return "Course not updated: Cannot have empty fields!"
             
              # Custom validation for newCode
             if newCode.strip() == "" or not newCode.isalpha():
-                return "College Code cannot be only spaces and should contain only letters."
+                return "Course not updated: Course Code cannot be only spaces and should contain only letters."
 
             # Custom validation for name
             if name.strip() == "" or not all(c.isalpha() or c.isspace() for c in name):
-                return "College Name should only contain letters and spaces."
+                return "Course not updated: Course Name should only contain letters and spaces."
             
             cur = mysql.connection.cursor()
+
+            # duplicate validations
+            cur.execute("SELECT * FROM `course` WHERE `course_code` = %s AND `course_code` != %s", (newCode, oldCode))
+            if cur.fetchone():
+                return "Course not updated: Cannot have duplicate courses."
+
             cur.execute(
                 "UPDATE `course` SET `course_code` = %s, `course_name` = %s, `college_id` = %s WHERE `course_code` = %s",
                 (newCode, name, college, oldCode),
             )
             mysql.connection.commit()
-            return "College updated successfully!"
+            return "Course updated successfully!"
         except Exception as e:
-            return f"Failed to update College: {str(e)}"
+            return f"Failed to update course: {str(e)}"
         
     @classmethod
     def search_course(cls, filter, input):
